@@ -4,353 +4,651 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blueprint Repository</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='5' width='5' height='22' rx='2' fill='%23D2373C'/%3E%3Crect x='9' y='5' width='5' height='22' rx='2' fill='%23E07B2A'/%3E%3Crect x='16' y='5' width='5' height='22' rx='2' fill='%232F7FD1'/%3E%3Crect x='23' y='5' width='5' height='22' rx='2' fill='%233F9B57'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #1c1c1c;
-    --panel: #272727;
-    --panel-2: #313131;
-    --border: #3d3d3d;
-    --text: #e8e2d8;
-    --text-dim: #a89f91;
-    --accent: #ff9f1c;
-    --accent-dim: #c77a14;
-    --green: #8bc34a;
-    --radius: 10px;
-  }
-  * { box-sizing: border-box; }
-  html { scrollbar-color: #555 var(--bg); }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font: 15px/1.5 "Segoe UI", system-ui, sans-serif;
-  }
-  a { color: var(--accent); }
+/* Domain Prism theme: light ground, ink black, category colors as the only accents */
+:root {
+  --bg: #EDEFF3;
+  --surface: #FFFFFF;
+  --field: #EDEFF3;
+  --ink: #14161B;
+  --ink-2: #3A3F4B;
+  --muted: #555C6A;
+  --placeholder: #5F6573;
+  --line: #C9CDD6;
+  --line-soft: #E3E6EB;
+  --good: #2E7D46;
+  --warn: #9A6B00;
+  --danger: #B3261E;
 
-  /* ---------- Header ---------- */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: linear-gradient(180deg, #232323 0%, #1e1e1e 100%);
-    border-bottom: 2px solid var(--accent-dim);
-    padding: 12px 20px 0;
-    box-shadow: 0 4px 14px rgba(0,0,0,.5);
-  }
-  .header-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    max-width: 1500px;
-    margin: 0 auto;
-  }
-  h1 {
-    font-size: 20px;
-    margin: 0;
-    letter-spacing: .5px;
-    white-space: nowrap;
-  }
-  h1 .gear { color: var(--accent); }
-  .searchbox {
-    flex: 1;
-    min-width: 240px;
-    position: relative;
-  }
-  .searchbox input {
+  --radius-sm: 10px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 20px;
+  --tap: 44px;
+  --shadow: 0 1px 2px rgba(20, 22, 27, 0.06), 0 8px 24px rgba(20, 22, 27, 0.06);
+  --shadow-lift: 0 2px 4px rgba(20, 22, 27, 0.08), 0 16px 40px rgba(20, 22, 27, 0.12);
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2314161B' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+
+  color-scheme: light;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+::placeholder { color: var(--placeholder); opacity: 1; }
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+main { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.muted { color: var(--muted); font-size: 0.8rem; }
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+/* ---------- Buttons ---------- */
+
+.sort-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: var(--tap);
+  padding: 0 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.sort-btn:hover:not(:disabled) { border-color: var(--ink); }
+.sort-btn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+  font-weight: 600;
+}
+
+.pill {
+  flex: none;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--field);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ---------- Top bar ---------- */
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+
+.brand { display: flex; align-items: center; gap: 0.65rem; }
+.brand-bars { display: inline-flex; gap: 4px; }
+.brand-bars span { width: 9px; height: 22px; border-radius: 3px; }
+.brand-name { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; }
+
+.source-link {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.source-link:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Hero ---------- */
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  padding: 2rem;
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+}
+
+.hero-main { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; }
+
+.hero-title {
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+.hero-text {
+  max-width: 680px;
+  color: var(--ink-2);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.hero-stats { display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
+.stat { display: flex; flex-direction: column; gap: 2px; }
+.stat-label { color: var(--muted); font-size: 0.875rem; }
+.stat-value {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Search + filters ---------- */
+
+.toolbar { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.search-container {
+  flex: 1 1 320px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0 1rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+.search-container:focus-within { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.search-input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 1rem;
+}
+.search-input:focus, .search-input:focus-visible { outline: none; }
+
+.search-clear {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.4rem;
+  display: none;
+}
+.search-clear:hover { color: var(--ink); }
+
+.filter-select {
+  min-height: 48px;
+  padding: 0 2.25rem 0 0.9rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--surface) var(--chevron) no-repeat right 0.85rem center;
+  appearance: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clear-filters { min-height: 48px; }
+
+.domain-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--tap);
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.chip:hover:not(.active) { box-shadow: inset 0 0 0 1px var(--line); }
+.chip.active { background: var(--ink); color: #fff; font-weight: 600; }
+
+.chip-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.chip.active .chip-dot { box-shadow: 0 0 0 2px var(--ink), 0 0 0 3px rgba(255, 255, 255, 0.6); }
+.chip-count { opacity: 0.6; font-size: 0.8rem; }
+
+.results-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.results-count { color: var(--muted); font-size: 0.95rem; }
+.results-count strong { color: var(--ink); }
+
+.sort-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Card gallery ---------- */
+
+.group-title {
+  margin: 0.5rem 0 -0.5rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.group-title .chip-dot { box-shadow: none; width: 12px; height: 12px; }
+
+.card-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.card-item {
+  --stripe: #8E94A0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-item::before {
+  content: '';
+  display: block;
+  height: 6px;
+  background: var(--stripe);
+}
+@media (hover: hover) {
+  .card-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+}
+
+.card-media { position: relative; padding: 0.75rem 0.75rem 0; }
+
+.card-image-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: zoom-in;
+}
+
+.card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: var(--field);
+}
+
+.card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.card-name { font-size: 1.15rem; font-weight: 600; line-height: 1.2; }
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.4rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.card-desc {
+  margin: 0.35rem 0 0.25rem;
+  color: var(--ink-2);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.card-desc.open { display: block; -webkit-line-clamp: unset; }
+.card-desc p { margin: 0 0 0.5em; }
+.card-desc p:last-child { margin-bottom: 0; }
+.card-desc a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+.more-btn {
+  align-self: flex-start;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+.more-btn:hover { color: var(--ink); }
+
+.card-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+.bp-row { display: flex; gap: 0.4rem; align-items: center; }
+
+.bp-copy {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  min-height: var(--tap);
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.bp-copy > span:first-child { overflow: hidden; text-overflow: ellipsis; }
+.bp-copy:hover { background: var(--ink); color: #fff; }
+.bp-copy .copy-hint { font-weight: 500; font-size: 0.8rem; opacity: 0.65; flex: none; }
+.bp-copy.copied { background: var(--good); color: #fff; }
+.bp-copy.copied .copy-hint { opacity: 1; }
+
+.bp-view {
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.bp-view:hover { background: var(--ink); color: #fff; }
+
+.bp-string {
+  width: 100%;
+  min-height: 5rem;
+  padding: 0.85rem 0.9rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--field);
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+/* ---------- Preview (lightbox) ---------- */
+
+.preview-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(20, 22, 27, 0.6);
+  backdrop-filter: blur(6px);
+}
+.preview-backdrop.show { display: flex; }
+
+.preview-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  max-width: min(1100px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 1.75rem;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-lift);
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 72vh;
+  height: auto;
+  border-radius: var(--radius);
+  background: var(--field);
+}
+
+.preview-info h2 { font-size: 1.75rem; font-weight: 800; line-height: 1.1; text-align: center; }
+
+.preview-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: var(--tap);
+  height: var(--tap);
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.preview-close:hover { background: var(--field); color: var(--ink); }
+
+/* ---------- Footer ---------- */
+
+.footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.footer a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+/* ---------- Phone ---------- */
+
+@media (max-width: 640px) {
+  .app { padding: 1rem 1rem 1.5rem; gap: 1.25rem; }
+  main { gap: 1.1rem; }
+
+  .hero { padding: 1.25rem; gap: 1rem; border-radius: var(--radius-lg); }
+  .hero-main { width: 100%; }
+
+  .hero-stats {
     width: 100%;
-    padding: 10px 38px 10px 38px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 15px;
-    outline: none;
-  }
-  .searchbox input:focus { border-color: var(--accent); }
-  .searchbox .icon {
-    position: absolute; left: 12px; top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-dim);
-    pointer-events: none;
-  }
-  .searchbox .clear {
-    position: absolute; right: 8px; top: 50%;
-    transform: translateY(-50%);
-    background: none; border: none; color: var(--text-dim);
-    font-size: 16px; cursor: pointer; padding: 4px 6px;
-    display: none;
-  }
-  .searchbox .clear:hover { color: var(--text); }
-  .count {
-    color: var(--text-dim);
-    font-size: 13px;
-    white-space: nowrap;
-  }
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .toolbar select {
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 10px;
-    font-size: 13px;
-    cursor: pointer;
-  }
-
-  /* ---------- Tabs ---------- */
-  .tabs {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    padding: 10px 0 12px;
-    max-width: 1500px;
-    margin: 0 auto;
-  }
-  .tab {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    border-radius: 999px;
-    padding: 5px 13px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all .12s;
-    white-space: nowrap;
-  }
-  .tab:hover { color: var(--text); border-color: #555; }
-  .tab.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #1a1200;
-    font-weight: 600;
-  }
-  .tab .n { opacity: .65; font-size: 11px; margin-left: 4px; }
-
-  /* ---------- Grid ---------- */
-  main {
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  .cat-heading {
-    grid-column: 1 / -1;
-    margin: 10px 0 -6px;
-    font-size: 17px;
-    color: var(--accent);
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 6px;
-  }
-  .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 18px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-soft);
   }
-  .card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: border-color .15s, transform .15s;
-  }
-  .card:hover { border-color: #5a5a5a; }
-  .card .imgwrap {
-    background: #141414;
-    cursor: zoom-in;
-    aspect-ratio: 16 / 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .card img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-  .card-body {
-    padding: 14px 16px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-  }
-  .card-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 8px;
-  }
-  .card h3 { margin: 0; font-size: 16px; }
-  .cat-chip {
-    font-size: 11px;
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 1px 8px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .desc {
-    color: var(--text-dim);
-    font-size: 13.5px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-  }
-  .desc.open { display: block; -webkit-line-clamp: unset; }
-  .desc p { margin: 0 0 .5em; }
-  .desc p:last-child { margin-bottom: 0; }
-  .desc a { color: var(--accent); }
-  .morebtn {
-    background: none; border: none;
-    color: var(--accent);
-    font-size: 12px;
-    cursor: pointer;
-    padding: 0;
-    align-self: flex-start;
-  }
-  .bps {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding-top: 6px;
-  }
-  .bp-row {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .bp-copy {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 7px;
-    padding: 7px 12px;
-    font-size: 13px;
-    cursor: pointer;
-    text-align: left;
-    transition: all .12s;
-  }
-  .bp-copy:hover { border-color: var(--accent); }
-  .bp-copy .copyicon { color: var(--text-dim); font-size: 12px; flex-shrink: 0; }
-  .bp-copy.copied { border-color: var(--green); }
-  .bp-copy.copied .copyicon { color: var(--green); }
-  .bp-view {
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    border-radius: 7px;
-    padding: 7px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .bp-view:hover { color: var(--text); border-color: #555; }
-  .bp-string {
-    width: 100%;
-    background: #141414;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    color: #9a9a9a;
-    font: 11px/1.4 Consolas, monospace;
-    padding: 8px;
-    resize: vertical;
-    min-height: 54px;
-  }
-  .empty {
-    text-align: center;
-    color: var(--text-dim);
-    padding: 80px 0;
-    font-size: 16px;
-  }
-  footer {
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 13px;
-    padding: 30px 20px 40px;
-  }
+  .stat-value { font-size: 1.85rem; }
+  .hero-text { font-size: 0.95rem; }
 
-  /* ---------- Lightbox ---------- */
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.88);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    cursor: zoom-out;
-    flex-direction: column;
-    gap: 10px;
-    padding: 24px;
-  }
-  .lightbox.show { display: flex; }
-  .lightbox img {
-    max-width: 95vw;
-    max-height: 88vh;
-    border-radius: 6px;
-    box-shadow: 0 10px 50px rgba(0,0,0,.8);
-  }
-  .lightbox .cap { color: var(--text); font-size: 15px; }
+  .filters { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .search-container, .clear-filters { grid-column: 1 / -1; }
+  .filters .filter-select { width: 100%; min-width: 0; }
 
-  @media (max-width: 600px) {
-    .grid { grid-template-columns: 1fr; }
-    header { padding: 10px 12px 0; }
-    main { padding: 14px 12px; }
+  /* Chips scroll sideways instead of wrapping into a tall block */
+  .domain-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0 -1rem;
+    padding: 2px 1rem;
+    scrollbar-width: none;
   }
+  .domain-chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; }
+
+  .results-bar { padding-top: 0.75rem; }
+  .results-count { font-size: 0.875rem; }
+
+  .card-gallery { grid-template-columns: 1fr; gap: 0.9rem; }
+  .card-item { border-radius: 14px; }
+  .card-item::before { height: 5px; }
+  .card-media { padding: 0.5rem 0.5rem 0; }
+  .card-image { border-radius: 8px; }
+  .card-info { padding: 0.75rem 0.8rem 0.85rem; }
+
+  .preview-body { padding: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
 </style>
 </head>
 <body>
+<div class="app">
 
-<header>
-  <div class="header-row">
-    <h1><span class="gear">⚙</span> Blueprint Repository</h1>
-    <div class="searchbox">
-      <span class="icon">🔍</span>
-      <input id="search" type="search" placeholder="Search blueprints…  (press / to focus)" autocomplete="off">
-      <button class="clear" id="clearBtn" title="Clear">✕</button>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-bars" aria-hidden="true" id="brandBars"></span>
+      <span class="brand-name">Blueprint Repository</span>
     </div>
+    <a class="source-link" href="https://autosaved.org/factorio/blueprints" target="_blank" rel="noopener noreferrer">Source: autosaved.org ↗</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-main">
+        <h1 class="hero-title">Factorio Blueprints</h1>
+        <p class="hero-text">
+          A personal lookup library of blueprints — search by name or description, filter by category,
+          and copy any blueprint string straight into the game.
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-label">Blueprints</span>
+          <span class="stat-value" id="statBlueprints">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Strings</span>
+          <span class="stat-value" id="statStrings">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Categories</span>
+          <span class="stat-value" id="statCategories">0</span>
+        </div>
+      </div>
+    </section>
+
     <div class="toolbar">
-      <select id="sortSel" title="Sort order">
-        <option value="original">Original order</option>
-        <option value="az">A → Z</option>
-        <option value="za">Z → A</option>
-      </select>
+      <div class="filters">
+        <label class="search-container">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input class="search-input" id="search" type="search" placeholder="Search blueprints… ( / )" autocomplete="off">
+          <button class="search-clear" id="clearSearch" aria-label="Clear search">×</button>
+        </label>
+        <select class="filter-select" id="sortSel" aria-label="Sort order">
+          <option value="original">Original order</option>
+          <option value="az">Name A–Z</option>
+          <option value="za">Name Z–A</option>
+        </select>
+        <button class="sort-btn clear-filters" id="clearAll" type="button">Clear filters</button>
+      </div>
+
+      <div class="domain-chips" id="chips" role="tablist" aria-label="Categories"></div>
+
+      <div class="results-bar">
+        <span class="results-count" id="count"></span>
+        <span class="sort-field muted" id="activeFilter"></span>
+      </div>
     </div>
-    <span class="count" id="count"></span>
+
+    <div id="gallery"></div>
+    <div class="empty-state" id="empty" style="display:none">No blueprints match. Try a different search or category.</div>
+  </main>
+
+  <footer class="footer">
+    <p>All blueprints and images from <a href="https://autosaved.org/factorio/blueprints" target="_blank" rel="noopener noreferrer">autosaved.org</a> — personal lookup mirror.</p>
+  </footer>
+</div>
+
+<div class="preview-backdrop" id="preview">
+  <div class="preview-body" role="dialog" aria-modal="true">
+    <button class="preview-close" id="previewClose" aria-label="Close">×</button>
+    <img class="preview-image" id="previewImg" alt="">
+    <div class="preview-info"><h2 id="previewTitle"></h2></div>
   </div>
-  <nav class="tabs" id="tabs"></nav>
-</header>
-
-<main>
-  <div class="grid" id="grid"></div>
-  <div class="empty" id="empty" style="display:none">No blueprints match your search.</div>
-</main>
-
-<footer>
-  Personal lookup mirror — all blueprints and images from
-  <a href="https://autosaved.org/factorio/blueprints" target="_blank" rel="noopener">autosaved.org</a>.
-</footer>
-
-<div class="lightbox" id="lightbox">
-  <img id="lightboxImg" alt="">
-  <div class="cap" id="lightboxCap"></div>
 </div>
 
 <script src="data.js"></script>
@@ -360,32 +658,84 @@
   const cats = [];
   data.forEach(d => { if (!cats.includes(d.category)) cats.push(d.category); });
 
-  const grid = document.getElementById('grid');
-  const tabsEl = document.getElementById('tabs');
+  /* Category accent colors (same palette idea as the cards app) */
+  const PALETTE = {
+    'Miscellaneous': '#8E94A0',
+    'Power': '#D9A821',
+    'Resources': '#E07B2A',
+    'Magic Trains!': '#2F7FD1',
+    'Train Stops': '#2F7FD1',
+    'Train Segments & Intersections': '#2F7FD1',
+    'Diagonal Train Segments & Intersections': '#2161A8',
+    'Train Two-Way Rails': '#2161A8',
+    'Base': '#3F9B57',
+    'Military': '#D2373C',
+    'Defense': '#D2373C',
+    'Science': '#8A4FD0',
+    'Intermediates': '#E07B2A',
+    'Late Game Beaconed Builds': '#7A3FC0',
+    'Space': '#555C6A',
+    'Vulcanus': '#D2373C',
+    'Fulgora': '#8A4FD0',
+    'Gleba': '#3F9B57',
+    'Aquilo': '#2F7FD1',
+  };
+  const catColor = c => PALETTE[c] || '#8E94A0';
+
+  /* Brand bars */
+  const brandBars = document.getElementById('brandBars');
+  ['#D2373C', '#3F9B57', '#2F7FD1', '#E07B2A', '#8A4FD0', '#D9A821'].forEach(c => {
+    const s = document.createElement('span');
+    s.style.background = c;
+    brandBars.appendChild(s);
+  });
+
+  /* Hero stats */
+  document.getElementById('statBlueprints').textContent = data.length;
+  document.getElementById('statStrings').textContent = data.reduce((n, d) => n + d.blueprints.length, 0);
+  document.getElementById('statCategories').textContent = cats.length;
+
+  const gallery = document.getElementById('gallery');
+  const chipsEl = document.getElementById('chips');
   const searchEl = document.getElementById('search');
-  const clearBtn = document.getElementById('clearBtn');
+  const clearSearchBtn = document.getElementById('clearSearch');
+  const clearAllBtn = document.getElementById('clearAll');
   const countEl = document.getElementById('count');
+  const activeFilterEl = document.getElementById('activeFilter');
   const emptyEl = document.getElementById('empty');
   const sortSel = document.getElementById('sortSel');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxCap = document.getElementById('lightboxCap');
+  const preview = document.getElementById('preview');
+  const previewImg = document.getElementById('previewImg');
+  const previewTitle = document.getElementById('previewTitle');
 
   let activeCat = 'All';
   let query = '';
 
-  /* ---------- Tabs ---------- */
-  function renderTabs() {
-    tabsEl.innerHTML = '';
-    const mk = (name, n) => {
+  /* ---------- Chips ---------- */
+  function renderChips() {
+    chipsEl.innerHTML = '';
+    const mk = (name, n, color) => {
       const b = document.createElement('button');
-      b.className = 'tab' + (name === activeCat ? ' active' : '');
-      b.innerHTML = escapeHtml(name) + '<span class="n">' + n + '</span>';
-      b.onclick = () => { activeCat = name; renderTabs(); render(); window.scrollTo({ top: 0 }); };
-      tabsEl.appendChild(b);
+      b.type = 'button';
+      b.role = 'tab';
+      b.className = 'chip' + (name === activeCat ? ' active' : '');
+      b.setAttribute('aria-selected', name === activeCat);
+      if (color) {
+        const dot = document.createElement('span');
+        dot.className = 'chip-dot';
+        dot.style.background = color;
+        b.appendChild(dot);
+      }
+      b.appendChild(document.createTextNode(name));
+      const cnt = document.createElement('span');
+      cnt.className = 'chip-count';
+      cnt.textContent = n;
+      b.appendChild(cnt);
+      b.onclick = () => { activeCat = name; renderChips(); render(); };
+      chipsEl.appendChild(b);
     };
-    mk('All', data.length);
-    cats.forEach(c => mk(c, data.filter(d => d.category === c).length));
+    mk('All', data.length, null);
+    cats.forEach(c => mk(c, data.filter(d => d.category === c).length, catColor(c)));
   }
 
   /* ---------- Filtering ---------- */
@@ -400,144 +750,179 @@
   );
 
   function filtered() {
-    let items = data.filter((d, i) => {
+    let items = data.filter(d => {
       if (activeCat !== 'All' && d.category !== activeCat) return false;
       if (query && !searchIndex[d._i].includes(query)) return false;
       return true;
     });
-    const sort = sortSel.value;
-    if (sort === 'az') items = items.slice().sort((a, b) => a.title.localeCompare(b.title));
-    if (sort === 'za') items = items.slice().sort((a, b) => b.title.localeCompare(a.title));
+    if (sortSel.value === 'az') items = items.slice().sort((a, b) => a.title.localeCompare(b.title));
+    if (sortSel.value === 'za') items = items.slice().sort((a, b) => b.title.localeCompare(a.title));
     return items;
   }
 
   /* ---------- Rendering ---------- */
-  function escapeHtml(s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
   function render() {
     const items = filtered();
-    countEl.textContent = items.length + ' / ' + data.length + ' blueprints';
+    countEl.innerHTML = '<strong>' + items.length + '</strong> of ' + data.length + ' blueprints';
+    activeFilterEl.textContent =
+      (activeCat !== 'All' ? activeCat : '') +
+      (activeCat !== 'All' && query ? ' · ' : '') +
+      (query ? '“' + query + '”' : '');
     emptyEl.style.display = items.length ? 'none' : '';
-    grid.innerHTML = '';
-    const frag = document.createDocumentFragment();
+    gallery.innerHTML = '';
+
+    const grouped = activeCat === 'All' && sortSel.value === 'original';
+    let grid = null;
     let lastCat = null;
+    const frag = document.createDocumentFragment();
 
     items.forEach(d => {
-      if (activeCat === 'All' && sortSel.value === 'original' && d.category !== lastCat) {
-        lastCat = d.category;
-        const h = document.createElement('h2');
-        h.className = 'cat-heading';
-        h.textContent = d.category;
-        frag.appendChild(h);
+      if (!grid || (grouped && d.category !== lastCat)) {
+        if (grouped && d.category !== lastCat) {
+          lastCat = d.category;
+          const h = document.createElement('h2');
+          h.className = 'group-title';
+          const dot = document.createElement('span');
+          dot.className = 'chip-dot';
+          dot.style.background = catColor(d.category);
+          h.appendChild(dot);
+          h.appendChild(document.createTextNode(d.category));
+          frag.appendChild(h);
+          grid = null;
+        }
+        if (!grid) {
+          grid = document.createElement('div');
+          grid.className = 'card-gallery';
+          grid.style.marginTop = grouped ? '1rem' : '0';
+          frag.appendChild(grid);
+        }
       }
-
-      const card = document.createElement('article');
-      card.className = 'card';
-
-      // image
-      const iw = document.createElement('div');
-      iw.className = 'imgwrap';
-      const img = document.createElement('img');
-      img.loading = 'lazy';
-      img.src = d.image;
-      img.alt = d.title;
-      iw.appendChild(img);
-      iw.onclick = () => {
-        lightboxImg.src = d.image;
-        lightboxCap.textContent = d.title;
-        lightbox.classList.add('show');
-      };
-      card.appendChild(iw);
-
-      const body = document.createElement('div');
-      body.className = 'card-body';
-
-      const titleRow = document.createElement('div');
-      titleRow.className = 'card-title-row';
-      titleRow.innerHTML = '<h3>' + escapeHtml(d.title) + '</h3>' +
-        '<span class="cat-chip">' + escapeHtml(d.category) + '</span>';
-      body.appendChild(titleRow);
-
-      // description (clamped, expandable)
-      if (d.desc && stripHtml(d.desc).trim()) {
-        const desc = document.createElement('div');
-        desc.className = 'desc';
-        desc.innerHTML = d.desc;
-        body.appendChild(desc);
-        const more = document.createElement('button');
-        more.className = 'morebtn';
-        more.textContent = 'more ▾';
-        more.onclick = () => {
-          const open = desc.classList.toggle('open');
-          more.textContent = open ? 'less ▴' : 'more ▾';
-        };
-        body.appendChild(more);
-        // hide "more" if not clamped (after layout)
-        requestAnimationFrame(() => {
-          if (desc.scrollHeight <= desc.clientHeight + 2) more.style.display = 'none';
-        });
-      }
-
-      // blueprint buttons
-      const bps = document.createElement('div');
-      bps.className = 'bps';
-      d.blueprints.forEach(b => {
-        const row = document.createElement('div');
-        row.className = 'bp-row';
-
-        const copyBtn = document.createElement('button');
-        copyBtn.className = 'bp-copy';
-        copyBtn.innerHTML = '<span>' + escapeHtml(b.label || 'Blueprint') + '</span>' +
-          '<span class="copyicon">⧉ copy</span>';
-        copyBtn.onclick = async () => {
-          try {
-            await navigator.clipboard.writeText(b.string);
-          } catch (e) {
-            // fallback
-            const ta = document.createElement('textarea');
-            ta.value = b.string;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            ta.remove();
-          }
-          copyBtn.classList.add('copied');
-          copyBtn.querySelector('.copyicon').textContent = '✓ copied';
-          setTimeout(() => {
-            copyBtn.classList.remove('copied');
-            copyBtn.querySelector('.copyicon').textContent = '⧉ copy';
-          }, 1500);
-        };
-        row.appendChild(copyBtn);
-
-        const viewBtn = document.createElement('button');
-        viewBtn.className = 'bp-view';
-        viewBtn.textContent = '{ }';
-        viewBtn.title = 'Show raw blueprint string';
-        let ta = null;
-        viewBtn.onclick = () => {
-          if (ta) { ta.remove(); ta = null; return; }
-          ta = document.createElement('textarea');
-          ta.className = 'bp-string';
-          ta.readOnly = true;
-          ta.value = b.string;
-          ta.rows = 3;
-          ta.onclick = () => ta.select();
-          row.insertAdjacentElement('afterend', ta);
-        };
-        row.appendChild(viewBtn);
-
-        bps.appendChild(row);
-      });
-      body.appendChild(bps);
-
-      card.appendChild(body);
-      frag.appendChild(card);
+      grid.appendChild(card(d));
     });
 
-    grid.appendChild(frag);
+    gallery.appendChild(frag);
+  }
+
+  function card(d) {
+    const el = document.createElement('article');
+    el.className = 'card-item';
+    el.style.setProperty('--stripe', catColor(d.category));
+
+    // media
+    const media = document.createElement('div');
+    media.className = 'card-media';
+    const imgBtn = document.createElement('button');
+    imgBtn.type = 'button';
+    imgBtn.className = 'card-image-btn';
+    const img = document.createElement('img');
+    img.className = 'card-image';
+    img.loading = 'lazy';
+    img.src = d.image;
+    img.alt = d.title;
+    imgBtn.appendChild(img);
+    imgBtn.onclick = () => {
+      previewImg.src = d.image;
+      previewImg.alt = d.title;
+      previewTitle.textContent = d.title;
+      preview.classList.add('show');
+    };
+    media.appendChild(imgBtn);
+    el.appendChild(media);
+
+    // info
+    const info = document.createElement('div');
+    info.className = 'card-info';
+
+    const name = document.createElement('h3');
+    name.className = 'card-name';
+    name.textContent = d.title;
+    info.appendChild(name);
+
+    const meta = document.createElement('div');
+    meta.className = 'card-meta';
+    meta.textContent = d.category;
+    info.appendChild(meta);
+
+    if (d.desc && stripHtml(d.desc).trim()) {
+      const desc = document.createElement('div');
+      desc.className = 'card-desc';
+      desc.innerHTML = d.desc;
+      info.appendChild(desc);
+      const more = document.createElement('button');
+      more.type = 'button';
+      more.className = 'more-btn';
+      more.textContent = 'Read more';
+      more.onclick = () => {
+        const open = desc.classList.toggle('open');
+        more.textContent = open ? 'Show less' : 'Read more';
+      };
+      info.appendChild(more);
+      requestAnimationFrame(() => {
+        if (desc.scrollHeight <= desc.clientHeight + 2) more.style.display = 'none';
+      });
+    }
+
+    // blueprint strings
+    const foot = document.createElement('div');
+    foot.className = 'card-foot';
+    d.blueprints.forEach(b => {
+      const row = document.createElement('div');
+      row.className = 'bp-row';
+
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'bp-copy';
+      const lbl = document.createElement('span');
+      lbl.textContent = b.label || 'Blueprint';
+      const hint = document.createElement('span');
+      hint.className = 'copy-hint';
+      hint.textContent = 'Copy';
+      copyBtn.appendChild(lbl);
+      copyBtn.appendChild(hint);
+      copyBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(b.string);
+        } catch (e) {
+          const ta = document.createElement('textarea');
+          ta.value = b.string;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        copyBtn.classList.add('copied');
+        hint.textContent = 'Copied ✓';
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          hint.textContent = 'Copy';
+        }, 1400);
+      };
+      row.appendChild(copyBtn);
+
+      const viewBtn = document.createElement('button');
+      viewBtn.type = 'button';
+      viewBtn.className = 'bp-view';
+      viewBtn.textContent = '{ }';
+      viewBtn.title = 'Show raw blueprint string';
+      let ta = null;
+      viewBtn.onclick = () => {
+        if (ta) { ta.remove(); ta = null; return; }
+        ta = document.createElement('textarea');
+        ta.className = 'bp-string';
+        ta.readOnly = true;
+        ta.value = b.string;
+        ta.rows = 3;
+        ta.onclick = () => ta.select();
+        row.insertAdjacentElement('afterend', ta);
+      };
+      row.appendChild(viewBtn);
+
+      foot.appendChild(row);
+    });
+    info.appendChild(foot);
+
+    el.appendChild(info);
+    return el;
   }
 
   /* ---------- Events ---------- */
@@ -546,16 +931,25 @@
     clearTimeout(debounce);
     debounce = setTimeout(() => {
       query = searchEl.value.trim().toLowerCase();
-      clearBtn.style.display = query ? 'block' : 'none';
+      clearSearchBtn.style.display = query ? 'block' : 'none';
       render();
     }, 120);
   });
-  clearBtn.onclick = () => {
+  clearSearchBtn.onclick = () => {
     searchEl.value = '';
     query = '';
-    clearBtn.style.display = 'none';
+    clearSearchBtn.style.display = 'none';
     render();
     searchEl.focus();
+  };
+  clearAllBtn.onclick = () => {
+    searchEl.value = '';
+    query = '';
+    clearSearchBtn.style.display = 'none';
+    activeCat = 'All';
+    sortSel.value = 'original';
+    renderChips();
+    render();
   };
   sortSel.onchange = render;
 
@@ -565,13 +959,14 @@
       searchEl.focus();
     }
     if (e.key === 'Escape') {
-      lightbox.classList.remove('show');
+      preview.classList.remove('show');
       if (document.activeElement === searchEl) searchEl.blur();
     }
   });
-  lightbox.onclick = () => lightbox.classList.remove('show');
+  preview.onclick = e => { if (e.target === preview) preview.classList.remove('show'); };
+  document.getElementById('previewClose').onclick = () => preview.classList.remove('show');
 
-  renderTabs();
+  renderChips();
   render();
 })();
 </script>
