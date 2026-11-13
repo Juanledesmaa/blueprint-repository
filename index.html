@@ -511,6 +511,314 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
 }
 .preview-close:hover { background: var(--field); color: var(--ink); }
 
+/* ---------- Section tabs ---------- */
+
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surface);
+}
+.tab {
+  min-height: 40px;
+  padding: 0 1.15rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.tab:hover:not(.active) { color: var(--ink); }
+.tab.active { background: var(--ink); color: #fff; }
+
+/* View switch (cheat sheet / full guide) */
+.seg {
+  display: inline-flex;
+  gap: 4px;
+  min-height: 48px;
+  padding: 4px;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.seg button {
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.seg button:hover:not(.active) { color: var(--ink); }
+.seg button.active { background: var(--ink); color: #fff; }
+
+[hidden] { display: none !important; }
+
+/* ---------- Guide: shared bits ---------- */
+
+.g-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: var(--field);
+  color: var(--ink-2);
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+.badge.sa { background: var(--ink); color: #fff; }
+
+.tag {
+  display: inline-block;
+  padding: 0 0.38em;
+  border-radius: 5px;
+  font-size: 0.68em;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.55;
+  vertical-align: 0.12em;
+  white-space: nowrap;
+}
+.tag.sa { background: var(--ink); color: #fff; }
+.tag.ver { background: var(--line-soft); color: var(--ink); }
+
+.w { font-weight: 700; }
+.w.r { color: #B3261E; }
+.w.g { color: #2E7D46; }
+
+.guide code, .guide kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.86em;
+}
+.guide code {
+  padding: 0.1em 0.38em;
+  border-radius: 6px;
+  background: var(--field);
+  overflow-wrap: anywhere;
+}
+.guide kbd {
+  padding: 0.08em 0.42em;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  background: var(--surface);
+  white-space: nowrap;
+}
+.guide a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+.facts {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: 0.35rem 0.9rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+.facts dt { color: var(--muted); }
+.facts dd { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.cheat {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.cheat li {
+  position: relative;
+  padding-left: 1rem;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.cheat li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--stripe);
+}
+
+.g-table { overflow-x: auto; margin: 0 -0.25rem; padding: 0 0.25rem; }
+.g-table table { width: 100%; border-collapse: collapse; font-size: 0.88rem; line-height: 1.45; }
+.g-table caption {
+  padding-bottom: 0.4rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: left;
+}
+.g-table th {
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+.g-table td {
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+.g-table tr:last-child td { border-bottom: 0; }
+.g-table td:first-child { font-weight: 600; }
+
+/* ---------- Guide: cheat-sheet cards ---------- */
+
+.guide .group-title:not(:first-child) { margin-top: 2rem; }
+
+.guide-gallery {
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-auto-flow: dense;
+  align-items: start;
+}
+.guide-card.wide { grid-column: 1 / -1; }
+.g-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem 1.1rem 1.1rem;
+}
+.g-title { font-size: 1.2rem; font-weight: 600; line-height: 1.2; }
+.g-title a { color: inherit; font-weight: inherit; text-decoration: none; }
+.g-title a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.g-sum { color: var(--ink-2); font-size: 0.95rem; line-height: 1.5; }
+.g-rule { height: 1px; background: var(--line-soft); }
+
+.read-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: var(--tap);
+  padding: 0 0.9rem;
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.guide .read-btn:hover { background: var(--ink); color: #fff; }
+
+/* ---------- Guide: full articles ---------- */
+
+.article-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.article {
+  --stripe: #8E94A0;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.article::before { content: ''; display: block; height: 6px; background: var(--stripe); }
+.a-inner { display: flex; flex-direction: column; gap: 1.25rem; padding: 1.5rem 1.75rem 1.75rem; }
+.a-head { display: flex; flex-direction: column; gap: 0.55rem; }
+.a-title { font-size: 1.7rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.01em; }
+.a-sum { max-width: 70ch; color: var(--ink-2); font-size: 1.05rem; line-height: 1.5; }
+
+.a-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 2rem; align-items: start; }
+.a-grid.solo { grid-template-columns: minmax(0, 1fr); }
+
+.a-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem 1.15rem;
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.a-label {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.prose { display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; }
+.prose p, .prose li { max-width: 72ch; color: var(--ink-2); font-size: 0.98rem; line-height: 1.65; }
+.prose h4 { margin-top: 0.5rem; font-size: 1.05rem; font-weight: 700; }
+.prose ul, .prose ol { display: flex; flex-direction: column; gap: 0.35rem; padding-left: 1.25rem; }
+.prose strong, .prose b { color: var(--ink); font-weight: 700; }
+
+.steps { list-style: none; counter-reset: step; padding-left: 0 !important; gap: 0.6rem !important; }
+.steps li { position: relative; padding-left: 2.4rem; counter-increment: step; }
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.65rem;
+  text-align: center;
+}
+
+.sources { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+.guide .sources a { color: var(--muted); font-weight: 500; }
+.guide .sources a:hover { color: var(--ink); }
+
+/* Wiring diagrams */
+.diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.dg-scroll { overflow-x: auto; }
+.dg { display: block; max-width: none; margin: 0 auto; }
+.dg-node { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+.dg-node.comb { stroke: var(--ink); }
+.dg-title { fill: var(--ink); font-size: 13px; font-weight: 700; }
+.dg-line { fill: var(--ink-2); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11.5px; }
+.dg-port { fill: var(--muted); font-size: 8.5px; font-weight: 800; letter-spacing: 0.06em; }
+.dg-note { fill: var(--muted); font-size: 11.5px; }
+.dg-wire { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.dg-wire.r, .dg-dot.r { stroke: #D2373C; }
+.dg-wire.g, .dg-dot.g { stroke: #3F9B57; }
+.dg-wire.air { stroke: var(--muted); stroke-dasharray: 2 7; }
+.dg-dot { stroke-width: 2.5; fill: var(--surface); }
+.dg-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 1rem; color: var(--muted); font-size: 0.8rem; }
+.dg-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.dg-legend i { width: 18px; height: 3px; border-radius: 2px; }
+.dg-hint { display: none; color: var(--muted); font-size: 0.8rem; text-align: center; }
+.dg-cap { color: var(--ink-2); font-size: 0.9rem; line-height: 1.5; text-align: center; }
+
+/* Reader (single topic) */
+.modal-open { overflow: hidden; }
+.reader-body {
+  position: relative;
+  width: min(1040px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-lift);
+}
+.reader-body .article { border-radius: 0; }
+.reader-body .a-title { padding-right: 2.5rem; }
+.reader-body .preview-close { top: 0.9rem; }
+
 /* ---------- Footer ---------- */
 
 .footer {
@@ -568,6 +876,26 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   .card-info { padding: 0.75rem 0.8rem 0.85rem; }
 
   .preview-body { padding: 1rem; }
+
+  .tabs { order: 3; width: 100%; }
+  .tab { flex: 1; padding: 0 0.5rem; }
+  .seg { grid-column: 1 / -1; }
+  .seg button { flex: 1; }
+
+  .guide-gallery { grid-template-columns: 1fr; }
+  .g-table table { min-width: calc(var(--cols, 3) * 180px); }
+  .dg-hint { display: block; }
+  .g-body { padding: 0.85rem 0.9rem 0.95rem; }
+  .article { border-radius: 14px; }
+  .a-inner { padding: 1.1rem 1rem 1.25rem; }
+  .a-title { font-size: 1.4rem; }
+  .preview-backdrop.reader { padding: 0; align-items: stretch; }
+  .reader-body { border-radius: 0; }
+}
+
+@media (max-width: 900px) {
+  .a-grid { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .a-aside { order: -1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -583,32 +911,21 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
       <span class="brand-bars" aria-hidden="true" id="brandBars"></span>
       <span class="brand-name">Blueprint Repository</span>
     </div>
-    <a class="source-link" href="https://autosaved.org/factorio/blueprints" target="_blank" rel="noopener noreferrer">Source: autosaved.org ↗</a>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" type="button" role="tab" data-tab="blueprints">Blueprints</button>
+      <button class="tab" type="button" role="tab" data-tab="logistics">Logistics</button>
+      <button class="tab" type="button" role="tab" data-tab="combinators">Combinators</button>
+    </nav>
+    <a class="source-link" id="sourceLink" href="https://autosaved.org/factorio/blueprints" target="_blank" rel="noopener noreferrer">Source: autosaved.org ↗</a>
   </header>
 
   <main>
     <section class="hero">
       <div class="hero-main">
-        <h1 class="hero-title">Factorio Blueprints</h1>
-        <p class="hero-text">
-          A personal lookup library of blueprints — search by name or description, filter by category,
-          and copy any blueprint string straight into the game.
-        </p>
+        <h1 class="hero-title" id="heroTitle">Factorio Blueprints</h1>
+        <p class="hero-text" id="heroText"></p>
       </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-label">Blueprints</span>
-          <span class="stat-value" id="statBlueprints">0</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">Strings</span>
-          <span class="stat-value" id="statStrings">0</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">Categories</span>
-          <span class="stat-value" id="statCategories">0</span>
-        </div>
-      </div>
+      <div class="hero-stats" id="heroStats"></div>
     </section>
 
     <div class="toolbar">
@@ -616,13 +933,18 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
         <label class="search-container">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <input class="search-input" id="search" type="search" placeholder="Search blueprints… ( / )" autocomplete="off">
-          <button class="search-clear" id="clearSearch" aria-label="Clear search">×</button>
+          <button class="search-clear" id="clearSearch" type="button" aria-label="Clear search">×</button>
         </label>
+        <select class="filter-select" id="typeSel" aria-label="Topic type" hidden></select>
         <select class="filter-select" id="sortSel" aria-label="Sort order">
           <option value="original">Original order</option>
           <option value="az">Name A–Z</option>
           <option value="za">Name Z–A</option>
         </select>
+        <div class="seg" id="viewSeg" role="group" aria-label="View" hidden>
+          <button type="button" data-view="cheat">Cheat sheet</button>
+          <button type="button" data-view="full">Full guide</button>
+        </div>
         <button class="sort-btn clear-filters" id="clearAll" type="button">Clear filters</button>
       </div>
 
@@ -635,31 +957,66 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     </div>
 
     <div id="gallery"></div>
-    <div class="empty-state" id="empty" style="display:none">No blueprints match. Try a different search or category.</div>
+    <div class="empty-state" id="empty" style="display:none"></div>
   </main>
 
   <footer class="footer">
-    <p>All blueprints and images from <a href="https://autosaved.org/factorio/blueprints" target="_blank" rel="noopener noreferrer">autosaved.org</a> — personal lookup mirror.</p>
+    <p id="footerText"></p>
   </footer>
 </div>
 
 <div class="preview-backdrop" id="preview">
   <div class="preview-body" role="dialog" aria-modal="true">
-    <button class="preview-close" id="previewClose" aria-label="Close">×</button>
+    <button class="preview-close" id="previewClose" type="button" aria-label="Close">×</button>
     <img class="preview-image" id="previewImg" alt="">
     <div class="preview-info"><h2 id="previewTitle"></h2></div>
   </div>
 </div>
 
+<div class="preview-backdrop reader" id="reader">
+  <div class="reader-body guide" role="dialog" aria-modal="true" aria-label="Topic">
+    <button class="preview-close" id="readerClose" type="button" aria-label="Close">×</button>
+    <div id="readerContent"></div>
+  </div>
+</div>
+
 <script src="data.js"></script>
+<script src="guide-logistics.js"></script>
+<script src="guide-combinators.js"></script>
 <script>
 (function () {
-  const data = BLUEPRINT_DATA.map((d, i) => ({ ...d, _i: i }));
-  const cats = [];
-  data.forEach(d => { if (!cats.includes(d.category)) cats.push(d.category); });
+  'use strict';
 
-  /* Category accent colors (same palette idea as the cards app) */
-  const PALETTE = {
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, text) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  };
+  function stripHtml(s) {
+    const t = document.createElement('div');
+    t.innerHTML = s;
+    return t.textContent || '';
+  }
+
+  const WIKI = 'https://wiki.factorio.com/';
+  const AUTOSAVED = 'https://autosaved.org/factorio/blueprints';
+  const ext = (href, label) =>
+    '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
+
+  /* Inline shorthand used by the guide text */
+  function fmt(s) {
+    return String(s)
+      .replace(/\{SA\}/g, '<span class="tag sa" title="Space Age expansion">SA</span>')
+      .replace(/\{2\.1\}/g, '<span class="tag ver" title="Added in game version 2.1">2.1</span>')
+      .replace(/\{red\}/g, '<span class="w r">red</span>')
+      .replace(/\{green\}/g, '<span class="w g">green</span>')
+      .replace(/\[\[([a-z]+\/[a-z0-9-]+)\|([^\]]+)\]\]/g, '<a href="#$1">$2</a>');
+  }
+
+  /* ---------- Section tabs ---------- */
+  const BP_COLORS = {
     'Miscellaneous': '#8E94A0',
     'Power': '#D9A821',
     'Resources': '#E07B2A',
@@ -680,46 +1037,146 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     'Gleba': '#3F9B57',
     'Aquilo': '#2F7FD1',
   };
-  const catColor = c => PALETTE[c] || '#8E94A0';
+
+  const guideFooter =
+    'Game facts researched from the ' + ext(WIKI, 'official Factorio Wiki') +
+    ' (CC BY-NC-SA 3.0) and rewritten as a personal cheat sheet — checked against game version 2.1, base game + Space Age.';
+
+  const TABS = {
+    blueprints: {
+      title: 'Factorio Blueprints',
+      text: 'A personal lookup library of blueprints — search by name or description, filter by category, and copy any blueprint string straight into the game.',
+      noun: 'blueprints',
+      placeholder: 'Search blueprints… ( / )',
+      sortLabel: 'Original order',
+      source: ['Source: autosaved.org ↗', AUTOSAVED],
+      footer: 'All blueprints and images from ' + ext(AUTOSAVED, 'autosaved.org') + ' — personal lookup mirror.',
+      empty: 'No blueprints match. Try a different search or category.',
+    },
+    logistics: {
+      guide: typeof LOGISTICS_GUIDE !== 'undefined' ? LOGISTICS_GUIDE : null,
+      title: 'Logistic Network',
+      text: 'Robots, roboports, logistic chests, requests and groups — a cheat sheet for quick lookup, with a full explanation behind every topic.',
+      noun: 'topics',
+      placeholder: 'Search logistics… ( / )',
+      sortLabel: 'Guide order',
+      source: ['Source: wiki.factorio.com ↗', WIKI + 'Logistic_network'],
+      footer: guideFooter,
+      empty: 'No topics match. Try a different search, section or type.',
+    },
+    combinators: {
+      guide: typeof COMBINATORS_GUIDE !== 'undefined' ? COMBINATORS_GUIDE : null,
+      title: 'Circuit Network',
+      text: 'Red and green wires, signals, the four combinators and ready-to-build circuits — from a first indicator lamp to latches, clocks and memory cells.',
+      noun: 'topics',
+      placeholder: 'Search combinators… ( / )',
+      sortLabel: 'Guide order',
+      source: ['Source: wiki.factorio.com ↗', WIKI + 'Circuit_network'],
+      footer: guideFooter,
+      empty: 'No topics match. Try a different search, section or type.',
+    },
+  };
+
+  /* One model per tab: items, categories, colours, search text */
+  function makeModel(key) {
+    const cfg = TABS[key];
+    const raw = cfg.guide ? cfg.guide.entries : BLUEPRINT_DATA;
+    const items = raw.map((d, i) => ({ ...d, _i: i }));
+    const cats = [];
+    items.forEach(d => { if (!cats.includes(d.category)) cats.push(d.category); });
+    const colors = cfg.guide ? (cfg.guide.colors || {}) : BP_COLORS;
+    const m = {
+      key, cfg, items, cats,
+      guide: !!cfg.guide,
+      color: c => colors[c] || '#8E94A0',
+      byId: {},
+      types: [],
+    };
+    if (m.guide) {
+      items.forEach(d => {
+        m.byId[d.id] = d;
+        if (!m.types.includes(d.type)) m.types.push(d.type);
+      });
+      m.index = items.map(d => stripHtml(fmt([
+        d.title, d.category, d.type, d.sa ? 'space age' : '', d.sum,
+        (d.facts || []).map(f => f.join(' ')).join(' '),
+        (d.cheat || []).join(' '),
+        d.body || '',
+        (d.steps || []).join(' '),
+        d.table ? [d.table.cap || ''].concat(d.table.head, ...d.table.rows).join(' ') : '',
+        d.diagram ? d.diagram.nodes.map(n => n.t + ' ' + n.l.join(' ')).join(' ') + ' ' + (d.diagram.cap || '') : '',
+        d.kw || '',
+      ].join(' '))).toLowerCase());
+      m.stats = [
+        ['Topics', items.length],
+        ['How-tos', items.filter(d => d.type === 'How-to').length],
+        ['Sections', cats.length],
+      ];
+    } else {
+      m.index = items.map(d =>
+        (d.title + ' ' + d.category + ' ' + stripHtml(d.desc) + ' ' +
+         d.blueprints.map(b => b.label).join(' ')).toLowerCase()
+      );
+      m.stats = [
+        ['Blueprints', items.length],
+        ['Strings', items.reduce((n, d) => n + d.blueprints.length, 0)],
+        ['Categories', cats.length],
+      ];
+    }
+    return m;
+  }
+
+  const models = {};
+  const state = {};
+  Object.keys(TABS).forEach(k => {
+    if (k !== 'blueprints' && !TABS[k].guide) return;
+    models[k] = makeModel(k);
+    state[k] = { cat: 'All', query: '', sort: 'original', type: 'all' };
+  });
+
+  let tab = null;
+  let view = 'cheat';
+  try { if (localStorage.getItem('guideView') === 'full') view = 'full'; } catch (e) { /* storage unavailable */ }
 
   /* Brand bars */
-  const brandBars = document.getElementById('brandBars');
+  const brandBars = $('brandBars');
   ['#D2373C', '#3F9B57', '#2F7FD1', '#E07B2A', '#8A4FD0', '#D9A821'].forEach(c => {
     const s = document.createElement('span');
     s.style.background = c;
     brandBars.appendChild(s);
   });
 
-  /* Hero stats */
-  document.getElementById('statBlueprints').textContent = data.length;
-  document.getElementById('statStrings').textContent = data.reduce((n, d) => n + d.blueprints.length, 0);
-  document.getElementById('statCategories').textContent = cats.length;
+  const gallery = $('gallery');
+  const chipsEl = $('chips');
+  const searchEl = $('search');
+  const clearSearchBtn = $('clearSearch');
+  const clearAllBtn = $('clearAll');
+  const countEl = $('count');
+  const activeFilterEl = $('activeFilter');
+  const emptyEl = $('empty');
+  const sortSel = $('sortSel');
+  const typeSel = $('typeSel');
+  const viewSeg = $('viewSeg');
+  const tabsEl = $('tabs');
+  const preview = $('preview');
+  const previewImg = $('previewImg');
+  const previewTitle = $('previewTitle');
+  const reader = $('reader');
+  const readerContent = $('readerContent');
 
-  const gallery = document.getElementById('gallery');
-  const chipsEl = document.getElementById('chips');
-  const searchEl = document.getElementById('search');
-  const clearSearchBtn = document.getElementById('clearSearch');
-  const clearAllBtn = document.getElementById('clearAll');
-  const countEl = document.getElementById('count');
-  const activeFilterEl = document.getElementById('activeFilter');
-  const emptyEl = document.getElementById('empty');
-  const sortSel = document.getElementById('sortSel');
-  const preview = document.getElementById('preview');
-  const previewImg = document.getElementById('previewImg');
-  const previewTitle = document.getElementById('previewTitle');
-
-  let activeCat = 'All';
-  let query = '';
+  /* Hide tabs whose data file is missing */
+  tabsEl.querySelectorAll('.tab').forEach(b => { if (!models[b.dataset.tab]) b.hidden = true; });
 
   /* ---------- Chips ---------- */
   function renderChips() {
+    const m = models[tab], st = state[tab];
     chipsEl.innerHTML = '';
     const mk = (name, n, color) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.role = 'tab';
-      b.className = 'chip' + (name === activeCat ? ' active' : '');
-      b.setAttribute('aria-selected', name === activeCat);
+      b.className = 'chip' + (name === st.cat ? ' active' : '');
+      b.setAttribute('aria-selected', name === st.cat);
       if (color) {
         const dot = document.createElement('span');
         dot.className = 'chip-dot';
@@ -731,47 +1188,44 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
       cnt.className = 'chip-count';
       cnt.textContent = n;
       b.appendChild(cnt);
-      b.onclick = () => { activeCat = name; renderChips(); render(); };
+      b.onclick = () => { st.cat = name; renderChips(); render(); };
       chipsEl.appendChild(b);
     };
-    mk('All', data.length, null);
-    cats.forEach(c => mk(c, data.filter(d => d.category === c).length, catColor(c)));
+    mk('All', m.items.length, null);
+    m.cats.forEach(c => mk(c, m.items.filter(d => d.category === c).length, m.color(c)));
   }
 
   /* ---------- Filtering ---------- */
-  function stripHtml(s) {
-    const t = document.createElement('div');
-    t.innerHTML = s;
-    return t.textContent || '';
-  }
-  const searchIndex = data.map(d =>
-    (d.title + ' ' + d.category + ' ' + stripHtml(d.desc) + ' ' +
-     d.blueprints.map(b => b.label).join(' ')).toLowerCase()
-  );
-
   function filtered() {
-    let items = data.filter(d => {
-      if (activeCat !== 'All' && d.category !== activeCat) return false;
-      if (query && !searchIndex[d._i].includes(query)) return false;
-      return true;
+    const m = models[tab], st = state[tab];
+    const terms = st.query.split(/\s+/).filter(Boolean);
+    let items = m.items.filter(d => {
+      if (st.cat !== 'All' && d.category !== st.cat) return false;
+      if (m.guide && st.type !== 'all' && d.type !== st.type) return false;
+      const text = m.index[d._i];
+      return terms.every(t => text.includes(t));
     });
-    if (sortSel.value === 'az') items = items.slice().sort((a, b) => a.title.localeCompare(b.title));
-    if (sortSel.value === 'za') items = items.slice().sort((a, b) => b.title.localeCompare(a.title));
+    if (st.sort === 'az') items = items.slice().sort((a, b) => a.title.localeCompare(b.title));
+    if (st.sort === 'za') items = items.slice().sort((a, b) => b.title.localeCompare(a.title));
     return items;
   }
 
   /* ---------- Rendering ---------- */
   function render() {
+    const m = models[tab], st = state[tab];
     const items = filtered();
-    countEl.innerHTML = '<strong>' + items.length + '</strong> of ' + data.length + ' blueprints';
-    activeFilterEl.textContent =
-      (activeCat !== 'All' ? activeCat : '') +
-      (activeCat !== 'All' && query ? ' · ' : '') +
-      (query ? '“' + query + '”' : '');
+    const full = m.guide && view === 'full';
+    countEl.innerHTML = '<strong>' + items.length + '</strong> of ' + m.items.length + ' ' + m.cfg.noun;
+    activeFilterEl.textContent = [
+      st.cat !== 'All' ? st.cat : '',
+      m.guide && st.type !== 'all' ? st.type : '',
+      st.query ? '“' + st.query + '”' : '',
+    ].filter(Boolean).join(' · ');
     emptyEl.style.display = items.length ? 'none' : '';
     gallery.innerHTML = '';
+    gallery.className = m.guide ? 'guide' : '';
 
-    const grouped = activeCat === 'All' && sortSel.value === 'original';
+    const grouped = st.cat === 'All' && st.sort === 'original';
     let grid = null;
     let lastCat = null;
     const frag = document.createDocumentFragment();
@@ -784,7 +1238,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
           h.className = 'group-title';
           const dot = document.createElement('span');
           dot.className = 'chip-dot';
-          dot.style.background = catColor(d.category);
+          dot.style.background = m.color(d.category);
           h.appendChild(dot);
           h.appendChild(document.createTextNode(d.category));
           frag.appendChild(h);
@@ -792,21 +1246,22 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
         }
         if (!grid) {
           grid = document.createElement('div');
-          grid.className = 'card-gallery';
+          grid.className = full ? 'article-list' : m.guide ? 'card-gallery guide-gallery' : 'card-gallery';
           grid.style.marginTop = grouped ? '1rem' : '0';
           frag.appendChild(grid);
         }
       }
-      grid.appendChild(card(d));
+      grid.appendChild(m.guide ? (full ? guideArticle(m, d) : guideCard(m, d)) : card(m, d));
     });
 
     gallery.appendChild(frag);
   }
 
-  function card(d) {
+  /* ---------- Blueprint card ---------- */
+  function card(m, d) {
     const el = document.createElement('article');
     el.className = 'card-item';
-    el.style.setProperty('--stripe', catColor(d.category));
+    el.style.setProperty('--stripe', m.color(d.category));
 
     // media
     const media = document.createElement('div');
@@ -925,49 +1380,393 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     return el;
   }
 
+  /* ---------- Guide pieces ---------- */
+  function badges(m, d) {
+    const wrap = el('div', 'g-badges');
+    wrap.appendChild(el('span', 'badge', d.type));
+    if (d.sa) wrap.appendChild(el('span', 'badge sa', 'Space Age'));
+    const cat = el('span', 'muted', d.category);
+    wrap.appendChild(cat);
+    return wrap;
+  }
+
+  function factsList(d) {
+    const dl = el('dl', 'facts');
+    d.facts.forEach(([k, v]) => {
+      const dt = el('dt');
+      dt.innerHTML = fmt(k);
+      dl.appendChild(dt);
+      const dd = el('dd');
+      dd.innerHTML = fmt(v);
+      dl.appendChild(dd);
+    });
+    return dl;
+  }
+
+  function cheatList(d) {
+    const ul = el('ul', 'cheat');
+    d.cheat.forEach(c => {
+      const li = el('li');
+      li.innerHTML = fmt(c);
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+
+  function tableEl(t) {
+    const wrap = el('div', 'g-table');
+    const table = el('table');
+    table.style.setProperty('--cols', t.head.length);
+    if (t.cap) table.appendChild(el('caption', null, t.cap));
+    const thead = el('thead');
+    const hr = el('tr');
+    t.head.forEach(hd => hr.appendChild(el('th', null, hd)));
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    const tbody = el('tbody');
+    t.rows.forEach(r => {
+      const tr = el('tr');
+      r.forEach(c => {
+        const td = el('td');
+        td.innerHTML = fmt(c);
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+    return wrap;
+  }
+
+  /* Wiring diagram: boxes for entities, coloured polylines for wires */
+  function diagramEl(dg) {
+    const NS = 'http://www.w3.org/2000/svg';
+    const sv = (tag, attrs, text) => {
+      const e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(k => e.setAttribute(k, attrs[k]));
+      if (text != null) e.textContent = text;
+      return e;
+    };
+    const fig = el('figure', 'diagram');
+    const scroll = el('div', 'dg-scroll');
+    const svg = sv('svg', {
+      class: 'dg', viewBox: '0 0 ' + dg.w + ' ' + dg.h, width: dg.w, height: dg.h,
+      role: 'img', 'aria-label': dg.cap || 'Wiring diagram',
+    });
+    const used = {};
+    dg.wires.forEach(w => {
+      used[w.c] = true;
+      svg.appendChild(sv('path', {
+        class: 'dg-wire ' + w.c,
+        d: 'M' + w.p.map(pt => pt.join(' ')).join(' L'),
+      }));
+    });
+    dg.wires.forEach(w => {
+      if (w.c === 'air') return;
+      [w.p[0], w.p[w.p.length - 1]].forEach(pt =>
+        svg.appendChild(sv('circle', { class: 'dg-dot ' + w.c, cx: pt[0], cy: pt[1], r: 3.5 })));
+    });
+    dg.nodes.forEach(n => {
+      svg.appendChild(sv('rect', {
+        class: 'dg-node' + (n.k === 'c' ? ' comb' : ''),
+        x: n.x, y: n.y, width: n.w, height: n.h, rx: 10,
+      }));
+      svg.appendChild(sv('text', { class: 'dg-title', x: n.x + n.w / 2, y: n.y + 21, 'text-anchor': 'middle' }, n.t));
+      n.l.forEach((line, i) =>
+        svg.appendChild(sv('text', { class: 'dg-line', x: n.x + n.w / 2, y: n.y + 39 + i * 15, 'text-anchor': 'middle' }, line)));
+      if (n.k === 'c') {
+        svg.appendChild(sv('text', { class: 'dg-port', x: n.x + 7, y: n.y + 13 }, 'IN'));
+        svg.appendChild(sv('text', { class: 'dg-port', x: n.x + n.w - 7, y: n.y + 13, 'text-anchor': 'end' }, 'OUT'));
+      }
+    });
+    (dg.notes || []).forEach(nt =>
+      svg.appendChild(sv('text', { class: 'dg-note', x: nt[0], y: nt[1], 'text-anchor': nt[3] || 'middle' }, nt[2])));
+    scroll.appendChild(svg);
+    fig.appendChild(scroll);
+    fig.appendChild(el('div', 'dg-hint', 'Swipe sideways to see the whole diagram'));
+
+    const legend = el('div', 'dg-legend');
+    [['r', 'Red wire', '#D2373C'], ['g', 'Green wire', '#3F9B57'], ['air', 'Wireless', '#8E94A0']].forEach(([k, label, color]) => {
+      if (!used[k]) return;
+      const s = el('span');
+      const sw = el('i');
+      sw.style.background = color;
+      s.appendChild(sw);
+      s.appendChild(document.createTextNode(label));
+      legend.appendChild(s);
+    });
+    if (dg.nodes.some(n => n.k === 'c')) legend.appendChild(el('span', null, 'Dark outline = combinator (input left, output right)'));
+    fig.appendChild(legend);
+    if (dg.cap) {
+      const cap = el('figcaption', 'dg-cap');
+      cap.innerHTML = fmt(dg.cap);
+      fig.appendChild(cap);
+    }
+    return fig;
+  }
+
+  function sourcesEl(d) {
+    const p = el('p', 'sources');
+    p.innerHTML = 'Wiki sources: ' + d.src.map(t =>
+      ext(WIKI + encodeURI(t.replace(/ /g, '_')), t)).join(' · ');
+    return p;
+  }
+
+  const href = (m, d) => '#' + m.key + '/' + d.id;
+
+  /* Cheat-sheet card */
+  function guideCard(m, d) {
+    const card = el('article', 'card-item guide-card' + (d.wide ? ' wide' : ''));
+    card.style.setProperty('--stripe', m.color(d.category));
+    const body = el('div', 'g-body');
+
+    body.appendChild(badges(m, d));
+    const h = el('h3', 'g-title');
+    const a = el('a', null, d.title);
+    a.href = href(m, d);
+    h.appendChild(a);
+    body.appendChild(h);
+
+    const sum = el('p', 'g-sum');
+    sum.innerHTML = fmt(d.sum);
+    body.appendChild(sum);
+
+    if (d.facts || d.cheat || (d.wide && d.table)) body.appendChild(el('div', 'g-rule'));
+    if (d.facts) body.appendChild(factsList(d));
+    if (d.cheat) body.appendChild(cheatList(d));
+    if (d.wide && d.table) body.appendChild(tableEl(d.table));
+
+    const more = el('a', 'read-btn');
+    more.href = href(m, d);
+    more.appendChild(el('span', null, d.diagram ? 'Full explanation + wiring diagram' : 'Full explanation'));
+    more.appendChild(el('span', null, '→'));
+    body.appendChild(more);
+
+    card.appendChild(body);
+    return card;
+  }
+
+  /* Full article (used by the "Full guide" view and by the reader) */
+  function guideArticle(m, d) {
+    const art = el('article', 'article');
+    art.style.setProperty('--stripe', m.color(d.category));
+    const inner = el('div', 'a-inner');
+
+    const head = el('header', 'a-head');
+    head.appendChild(badges(m, d));
+    head.appendChild(el('h2', 'a-title', d.title));
+    const sum = el('p', 'a-sum');
+    sum.innerHTML = fmt(d.sum);
+    head.appendChild(sum);
+    inner.appendChild(head);
+    if (d.diagram) inner.appendChild(diagramEl(d.diagram));
+    if (d.wide && d.table) inner.appendChild(tableEl(d.table));
+
+    const hasAside = !!(d.facts || d.cheat);
+    const grid = el('div', 'a-grid' + (hasAside ? '' : ' solo'));
+
+    const prose = el('div', 'prose');
+    if (d.body) {
+      const bodyWrap = document.createElement('div');
+      bodyWrap.innerHTML = fmt(d.body);
+      while (bodyWrap.firstChild) prose.appendChild(bodyWrap.firstChild);
+    }
+    if (d.steps) {
+      prose.appendChild(el('h4', null, 'Step by step'));
+      const ol = el('ol', 'steps');
+      d.steps.forEach(s => {
+        const li = el('li');
+        li.innerHTML = fmt(s);
+        ol.appendChild(li);
+      });
+      prose.appendChild(ol);
+    }
+    if (d.table && !d.wide) prose.appendChild(tableEl(d.table));
+    if (d.after) {
+      const afterWrap = document.createElement('div');
+      afterWrap.innerHTML = fmt(d.after);
+      while (afterWrap.firstChild) prose.appendChild(afterWrap.firstChild);
+    }
+    if (d.src) prose.appendChild(sourcesEl(d));
+    grid.appendChild(prose);
+
+    if (hasAside) {
+      const aside = el('aside', 'a-aside');
+      aside.style.setProperty('--stripe', m.color(d.category));
+      aside.appendChild(el('div', 'a-label', 'Cheat sheet'));
+      if (d.facts) aside.appendChild(factsList(d));
+      if (d.cheat) aside.appendChild(cheatList(d));
+      grid.appendChild(aside);
+    }
+
+    inner.appendChild(grid);
+    art.appendChild(inner);
+    return art;
+  }
+
+  /* ---------- Reader (one topic, deep-linkable) ---------- */
+  function openReader(m, d) {
+    readerContent.innerHTML = '';
+    readerContent.appendChild(guideArticle(m, d));
+    reader.classList.add('show');
+    document.body.classList.add('modal-open');
+    reader.querySelector('.reader-body').scrollTop = 0;
+  }
+  function hideReader() {
+    reader.classList.remove('show');
+    document.body.classList.remove('modal-open');
+    readerContent.innerHTML = '';
+  }
+  function closeReader() {
+    if (!reader.classList.contains('show')) return;
+    hideReader();
+    history.replaceState(null, '', '#' + tab);
+  }
+
+  /* ---------- Tab switching ---------- */
+  function setTab(next) {
+    tab = next;
+    const m = models[tab], st = state[tab], cfg = m.cfg;
+
+    tabsEl.querySelectorAll('.tab').forEach(b => {
+      const on = b.dataset.tab === tab;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on);
+    });
+
+    document.title = tab === 'blueprints' ? 'Blueprint Repository' : cfg.title + ' · Blueprint Repository';
+    $('heroTitle').textContent = cfg.title;
+    $('heroText').textContent = cfg.text;
+    const stats = $('heroStats');
+    stats.innerHTML = '';
+    m.stats.forEach(([label, value]) => {
+      const s = el('div', 'stat');
+      s.appendChild(el('span', 'stat-label', label));
+      s.appendChild(el('span', 'stat-value', value));
+      stats.appendChild(s);
+    });
+
+    const src = $('sourceLink');
+    src.textContent = cfg.source[0];
+    src.href = cfg.source[1];
+    $('footerText').innerHTML = cfg.footer;
+    emptyEl.textContent = cfg.empty;
+
+    searchEl.placeholder = cfg.placeholder;
+    searchEl.value = st.query;
+    clearSearchBtn.style.display = st.query ? 'block' : 'none';
+    sortSel.options[0].textContent = cfg.sortLabel;
+    sortSel.value = st.sort;
+
+    typeSel.hidden = !m.guide;
+    viewSeg.hidden = !m.guide;
+    if (m.guide) {
+      typeSel.innerHTML = '';
+      const all = el('option', null, 'All types');
+      all.value = 'all';
+      typeSel.appendChild(all);
+      m.types.forEach(t => {
+        const o = el('option', null, t);
+        o.value = t;
+        typeSel.appendChild(o);
+      });
+      typeSel.value = st.type;
+      syncView();
+    }
+
+    renderChips();
+    render();
+  }
+
+  function syncView() {
+    viewSeg.querySelectorAll('button').forEach(b => {
+      const on = b.dataset.view === view;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on);
+    });
+  }
+
+  /* Hash routing: #logistics, #combinators/sr-latch … */
+  function route() {
+    let hash = location.hash.slice(1);
+    try { hash = decodeURIComponent(hash); } catch (e) { /* keep raw */ }
+    const parts = hash.split('/');
+    const next = models[parts[0]] ? parts[0] : 'blueprints';
+    if (next !== tab) {
+      setTab(next);
+      window.scrollTo(0, 0);
+    }
+    const m = models[next];
+    const entry = parts[1] && m.guide ? m.byId[parts[1]] : null;
+    if (entry) openReader(m, entry); else hideReader();
+  }
+
   /* ---------- Events ---------- */
+  tabsEl.addEventListener('click', e => {
+    const b = e.target.closest('.tab');
+    if (!b) return;
+    if (location.hash.slice(1) === b.dataset.tab) return;
+    location.hash = b.dataset.tab;
+  });
+  window.addEventListener('hashchange', route);
+
   let debounce;
   searchEl.addEventListener('input', () => {
     clearTimeout(debounce);
     debounce = setTimeout(() => {
-      query = searchEl.value.trim().toLowerCase();
-      clearSearchBtn.style.display = query ? 'block' : 'none';
+      state[tab].query = searchEl.value.trim().toLowerCase();
+      clearSearchBtn.style.display = state[tab].query ? 'block' : 'none';
       render();
     }, 120);
   });
   clearSearchBtn.onclick = () => {
     searchEl.value = '';
-    query = '';
+    state[tab].query = '';
     clearSearchBtn.style.display = 'none';
     render();
     searchEl.focus();
   };
   clearAllBtn.onclick = () => {
+    const st = state[tab];
     searchEl.value = '';
-    query = '';
+    st.query = '';
     clearSearchBtn.style.display = 'none';
-    activeCat = 'All';
+    st.cat = 'All';
+    st.sort = 'original';
+    st.type = 'all';
     sortSel.value = 'original';
+    typeSel.value = 'all';
     renderChips();
     render();
   };
-  sortSel.onchange = render;
+  sortSel.onchange = () => { state[tab].sort = sortSel.value; render(); };
+  typeSel.onchange = () => { state[tab].type = typeSel.value; render(); };
+  viewSeg.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b || b.dataset.view === view) return;
+    view = b.dataset.view;
+    try { localStorage.setItem('guideView', view); } catch (err) { /* storage unavailable */ }
+    syncView();
+    render();
+  });
 
   document.addEventListener('keydown', e => {
-    if (e.key === '/' && document.activeElement !== searchEl) {
+    if (e.key === '/' && document.activeElement !== searchEl && !reader.classList.contains('show')) {
       e.preventDefault();
       searchEl.focus();
     }
     if (e.key === 'Escape') {
       preview.classList.remove('show');
+      closeReader();
       if (document.activeElement === searchEl) searchEl.blur();
     }
   });
   preview.onclick = e => { if (e.target === preview) preview.classList.remove('show'); };
-  document.getElementById('previewClose').onclick = () => preview.classList.remove('show');
+  $('previewClose').onclick = () => preview.classList.remove('show');
+  reader.onclick = e => { if (e.target === reader) closeReader(); };
+  $('readerClose').onclick = closeReader;
 
-  renderChips();
-  render();
+  route();
 })();
 </script>
 </body>
