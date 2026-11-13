@@ -20,6 +20,9 @@ const LOGISTICS_GUIDE = {
     /* ================= Basics ================= */
     {
       id: 'overview',
+      img: [
+        { f: "RoboTrainStation small.gif", w: 420, h: 336, fit: "cover", tw: 419, cap: "Robots unloading a train: chests beside the wagons hand items to robots, which fill the chests that feed the belts." },
+      ],
       title: 'What the logistic network is',
       category: 'Basics',
       type: 'Explainer',
@@ -53,22 +56,23 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'research',
+      icons: ["Robotics (research)", "Construction robotics (research)", "Logistic robotics (research)", "Logistic system (research)"],
       title: 'Research path & unlocks',
       category: 'Basics',
       type: 'Reference',
       wide: true,
-      sum: 'Which technology unlocks which piece. "Red, green, blue" means automation, logistic and chemical science packs.',
+      sum: 'Which technology unlocks which piece, and what it costs.',
       table: {
         head: ['Technology', 'Cost', 'Unlocks'],
         rows: [
-          ['Robotics', '75 × red, green, blue', 'Flying robot frame. Requires Battery + Electric engine. Opens everything below.'],
-          ['Construction robotics', '100 × red, green, blue', 'Construction robot, roboport, passive provider chest, storage chest. Destroyed buildings now leave ghosts.'],
-          ['Logistic robotics', '250 × red, green, blue', 'Logistic robot, roboport, passive provider chest, storage chest, plus personal logistics (requests, auto-trash, trash slots).'],
-          ['Logistic system', '500 × red, green, blue, utility. {SA} uses space science instead of utility.', 'Active provider, buffer and requester chests. Tanks can make logistic requests.'],
-          ['Personal roboport', '50 × red, green, blue', 'Personal roboport. Requires Construction robotics + Portable solar panel.'],
-          ['Personal roboport MK2', '250 × red, green, blue, utility. {SA} 750 × and adds space + electromagnetic science.', 'Personal roboport MK2.'],
-          ['Worker robot speed 1–5', '50 / 100 / 150 / 250 / 500', '+35 / 40 / 45 / 55 / 65% speed. Level 6 and up is infinite: +65% each.'],
-          ['Worker robot cargo size 1–3', '200 / 300 / 450', '+1 item carried per level (1 → 4 items).'],
+          ['{i:Robotics (research)} Robotics', '75 × {i:Automation science pack}{i:Logistic science pack}{i:Chemical science pack}', 'Flying robot frame. Requires Battery + Electric engine. Opens everything below.'],
+          ['{i:Construction robotics (research)} Construction robotics', '100 × {i:Automation science pack}{i:Logistic science pack}{i:Chemical science pack}', 'Construction robot, roboport, passive provider chest, storage chest. Destroyed buildings now leave ghosts.'],
+          ['{i:Logistic robotics (research)} Logistic robotics', '250 × {i:Automation science pack}{i:Logistic science pack}{i:Chemical science pack}', 'Logistic robot, roboport, passive provider chest, storage chest, plus personal logistics (requests, auto-trash, trash slots).'],
+          ['{i:Logistic system (research)} Logistic system', '500 × {i:Automation science pack}{i:Logistic science pack}{i:Chemical science pack}{i:Utility science pack}. {SA} {i:Space science pack} instead of {i:Utility science pack}.', 'Active provider, buffer and requester chests. Tanks can make logistic requests.'],
+          ['{i:Personal roboport (research)} Personal roboport', '50 × {i:Automation science pack}{i:Logistic science pack}{i:Chemical science pack}', 'Personal roboport. Requires Construction robotics + Portable solar panel.'],
+          ['{i:Personal roboport MK2 (research)} Personal roboport MK2', '250 × {i:Automation science pack}{i:Logistic science pack}{i:Chemical science pack}{i:Utility science pack}. {SA} 750 × and adds {i:Space science pack}{i:Electromagnetic science pack}.', 'Personal roboport MK2.'],
+          ['{i:Worker robot speed (research)} Worker robot speed 1–5', '50 / 100 / 150 / 250 / 500', '+35 / 40 / 45 / 55 / 65% speed. Level 6 and up is infinite: +65% each.'],
+          ['{i:Worker robot cargo size (research)} Worker robot cargo size 1–3', '200 / 300 / 450', '+1 item carried per level (1 → 4 items).'],
         ],
       },
       cheat: [
@@ -82,6 +86,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'first-network',
+      img: [
+        { f: "Roboport network gui.png", w: 1558, h: 1558, fit: "cover", tw: 480, cap: "One roboport: logistic area in orange, construction area in green." },
+      ],
       title: 'Build your first robot network',
       category: 'Basics',
       type: 'How-to',
@@ -107,6 +114,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'bots-vs-belts',
+      icons: ["Logistic robot", "Transport belt", "Locomotive"],
       title: 'Robots vs belts vs trains',
       category: 'Basics',
       type: 'Explainer',
@@ -128,6 +136,11 @@ const LOGISTICS_GUIDE = {
     /* ================= Roboports & charging ================= */
     {
       id: 'roboport',
+      img: [
+        { f: "Roboport entity anim.gif", w: 300, h: 300, fit: "cover", tw: 299, cap: "Roboport" },
+        { f: "Roboport network gui.png", w: 1558, h: 1558, fit: "cover", tw: 480, cap: "Logistic area (orange, 50×50) inside the construction area (green, 110×110)." },
+        { f: "Roboport gui.png", w: 448, h: 528, cap: "Roboport window: robot slots, repair pack slots and robot requests." },
+      ],
       title: 'Roboport',
       category: 'Roboports & charging',
       type: 'Reference',
@@ -142,7 +155,7 @@ const LOGISTICS_GUIDE = {
         ['Robot storage', '7 slots × 50 robots'],
         ['Repair packs', '7 slots'],
         ['Map reveal', '5×5 chunks'],
-        ['Recipe', '45 steel plate, 45 iron gear wheel, 45 advanced circuit'],
+        ['Recipe', '45&nbsp;{i:Steel plate} 45&nbsp;{i:Iron gear wheel} 45&nbsp;{i:Advanced circuit}'],
       ],
       cheat: [
         'Robots only enter a roboport to rest when fully charged.',
@@ -164,6 +177,10 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'coverage',
+      img: [
+        { f: "Roboport connection.jpg", w: 800, h: 554, fit: "cover", tw: 480, cap: "Two roboports linked into one network. The dotted yellow line confirms it." },
+        { f: "Roboport network gui.png", w: 1558, h: 1558, fit: "cover", tw: 480, cap: "Orange is the logistic area, green the construction area." },
+      ],
       title: 'Coverage areas & linking roboports',
       category: 'Roboports & charging',
       type: 'Explainer',
@@ -190,6 +207,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'charging',
+      icons: ["Recharge-icon", "Roboport", "Logistic robot", "Construction robot"],
       title: 'Robot energy & charging',
       category: 'Roboports & charging',
       type: 'Explainer',
@@ -223,6 +241,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'roboport-requests',
+      img: [
+        { f: "Roboport gui.png", w: 448, h: 528, cap: "The \"Robot requests\" section at the bottom of the roboport window." },
+      ],
       title: 'Roboport robot requests',
       category: 'Roboports & charging',
       type: 'Explainer',
@@ -244,6 +265,10 @@ const LOGISTICS_GUIDE = {
     /* ================= Robots ================= */
     {
       id: 'logistic-robot',
+      img: [
+        { f: "Logistic robot demo.gif", w: 307, h: 179, tw: 306, cap: "Logistic robots moving items from an active provider chest to a storage chest." },
+        { f: "Logistic robot entity.png", w: 300, h: 300, fit: "cover", cap: "Logistic robots" },
+      ],
       title: 'Logistic robot',
       category: 'Robots',
       type: 'Reference',
@@ -254,7 +279,7 @@ const LOGISTICS_GUIDE = {
         ['Battery', '1.5 MJ'],
         ['Health', '100'],
         ['Stack size', '50'],
-        ['Recipe', '1 flying robot frame + 2 advanced circuits'],
+        ['Recipe', '{i:Flying robot frame} + 2&nbsp;{i:Advanced circuit}'],
         ['Unlock', 'Logistic robotics'],
       ],
       cheat: [
@@ -273,6 +298,10 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'construction-robot',
+      img: [
+        { f: "Construction robot demo.gif", w: 282, h: 179, tw: 281, cap: "Construction robots building ghost entities." },
+        { f: "Construction robot entity.png", w: 300, h: 300, fit: "cover", cap: "Construction robots" },
+      ],
       title: 'Construction robot',
       category: 'Robots',
       type: 'Reference',
@@ -283,7 +312,7 @@ const LOGISTICS_GUIDE = {
         ['Battery', '3 MJ'],
         ['Health', '100'],
         ['Stack size', '50'],
-        ['Recipe', '1 flying robot frame + 2 electronic circuits'],
+        ['Recipe', '{i:Flying robot frame} + 2&nbsp;{i:Electronic circuit}'],
         ['Unlock', 'Construction robotics'],
       ],
       cheat: [
@@ -310,6 +339,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'robot-research',
+      icons: ["Worker robot speed (research)", "Worker robot cargo size (research)"],
       title: 'Robot speed & cargo research',
       category: 'Robots',
       type: 'Reference',
@@ -340,6 +370,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'robot-count',
+      icons: ["Logistic robot", "Roboport"],
       title: 'How many robots do I need?',
       category: 'Robots',
       type: 'Explainer',
@@ -365,19 +396,20 @@ const LOGISTICS_GUIDE = {
     /* ================= Chests ================= */
     {
       id: 'chest-comparison',
+      icons: ["Passive provider chest", "Active provider chest", "Storage chest", "Buffer chest", "Requester chest"],
       title: 'The five logistic chests at a glance',
       category: 'Chests',
       type: 'Reference',
       wide: true,
-      sum: 'All are 1×1 with 48 slots and cost a steel chest, 3 electronic circuits and 1 advanced circuit.',
+      sum: 'All are 1×1 with 48 slots. Recipe: {i:Steel chest} + 3&nbsp;{i:Electronic circuit} + 1&nbsp;{i:Advanced circuit}.',
       table: {
         head: ['Chest', 'Colour', 'Role', 'Robots take from it', 'Robots deliver to it', 'Unlock'],
         rows: [
-          ['Passive provider', 'Red', 'Offers its contents. Nothing moves until something asks.', 'Yes, as the last choice', 'No', 'Construction or Logistic robotics'],
-          ['Active provider', 'Purple', 'Pushes its contents out. Robots empty it into requests or storage.', 'Yes, as the first choice', 'No', 'Logistic system'],
-          ['Storage', 'Yellow', 'Catch-all for trash, deconstruction and leftovers. Optional one-item filter.', 'Yes', 'Only items with nowhere else to go', 'Construction or Logistic robotics'],
-          ['Buffer', 'Green', 'Requests items, then offers them to players, construction robots and opted-in requesters.', 'Yes, but never for another buffer', 'Yes, after requesters', 'Logistic system'],
-          ['Requester', 'Blue', 'Requests items for the machines next to it. Contents are reserved.', 'No', 'Yes', 'Logistic system'],
+          ['{i:Passive provider chest} Passive provider', 'Red', 'Offers its contents. Nothing moves until something asks.', 'Yes, as the last choice', 'No', 'Construction or Logistic robotics'],
+          ['{i:Active provider chest} Active provider', 'Purple', 'Pushes its contents out. Robots empty it into requests or storage.', 'Yes, as the first choice', 'No', 'Logistic system'],
+          ['{i:Storage chest} Storage', 'Yellow', 'Catch-all for trash, deconstruction and leftovers. Optional one-item filter.', 'Yes', 'Only items with nowhere else to go', 'Construction or Logistic robotics'],
+          ['{i:Buffer chest} Buffer', 'Green', 'Requests items, then offers them to players, construction robots and opted-in requesters.', 'Yes, but never for another buffer', 'Yes, after requesters', 'Logistic system'],
+          ['{i:Requester chest} Requester', 'Blue', 'Requests items for the machines next to it. Contents are reserved.', 'No', 'Yes', 'Logistic system'],
         ],
       },
       cheat: [
@@ -392,6 +424,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'passive-provider',
+      img: [
+        { f: "Passive provider chest entity.png", w: 300, h: 300, fit: "cover", cap: "Passive provider chest" },
+      ],
       title: 'Passive provider chest',
       category: 'Chests',
       type: 'Reference',
@@ -414,6 +449,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'active-provider',
+      img: [
+        { f: "Active provider chest entity.png", w: 300, h: 300, fit: "cover", cap: "Active provider chest" },
+      ],
       title: 'Active provider chest',
       category: 'Chests',
       type: 'Reference',
@@ -437,6 +475,11 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'storage',
+      img: [
+        { f: "Storage chest entity.png", w: 300, h: 300, fit: "cover", cap: "Storage chest" },
+        { f: "Storage logistic robots anim.gif", w: 418, h: 238, tw: 417, cap: "Logistic robots placing items in storage chests." },
+        { f: "Storage chest gui.png", w: 444, h: 576, cap: "Storage chest window with a logistic filter set." },
+      ],
       title: 'Storage chest',
       category: 'Chests',
       type: 'Reference',
@@ -469,6 +512,10 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'requester',
+      img: [
+        { f: "Requester chest entity.png", w: 300, h: 300, fit: "cover", cap: "Requester chest" },
+        { f: "Requester chest gui.png", w: 440, h: 750, cap: "Requester chest window: requests, \"Trash unrequested\" and \"Request from buffer chests\"." },
+      ],
       title: 'Requester chest',
       category: 'Chests',
       type: 'Reference',
@@ -493,6 +540,12 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'buffer',
+      img: [
+        { f: "Buffer chest entity.png", w: 300, h: 300, fit: "cover", cap: "Buffer chest" },
+        { f: "Fff-203-buffer-chest-2.png", w: 512, h: 352, cap: "A buffer chest as a central supply point for the player." },
+        { f: "Fff-203-buffer-chest-3.png", w: 896, h: 352, cap: "A buffer chest as local supply for construction robots." },
+        { f: "Buffer chest gui.png", w: 450, h: 725, cap: "Buffer chest window." },
+      ],
       title: 'Buffer chest',
       category: 'Chests',
       type: 'Reference',
@@ -516,6 +569,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'priorities',
+      icons: ["Active provider chest", "Storage chest", "Buffer chest", "Passive provider chest", "Requester chest"],
       title: 'Robot priorities: who is served first',
       category: 'Chests',
       type: 'Explainer',
@@ -530,10 +584,10 @@ const LOGISTICS_GUIDE = {
       table: {
         head: ['Rank', 'Robots take items from', 'Robots deliver items to'],
         rows: [
-          ['1', 'Active provider chests, player trash slots', 'The player, and requester chests with "Request from buffer chests"'],
-          ['2', 'Storage chests, buffer chests', 'Requester chests'],
-          ['3', 'Passive provider chests, cargo landing pad', 'Buffer chests (only with requests set)'],
-          ['4', '—', 'Storage chests (only items with nowhere else to go)'],
+          ['1', '{i:Active provider chest} Active provider chests, player trash slots', '{i:Requester chest} The player, and requester chests with "Request from buffer chests"'],
+          ['2', '{i:Storage chest}{i:Buffer chest} Storage chests, buffer chests', '{i:Requester chest} Requester chests'],
+          ['3', '{i:Passive provider chest}{i:Cargo landing pad} Passive provider chests, cargo landing pad', '{i:Buffer chest} Buffer chests (only with requests set)'],
+          ['4', '—', '{i:Storage chest} Storage chests (only items with nowhere else to go)'],
         ],
       },
       body: `
@@ -553,6 +607,9 @@ const LOGISTICS_GUIDE = {
     /* ================= Requests & groups ================= */
     {
       id: 'requests',
+      img: [
+        { f: "Player logistics gui.png", w: 439, h: 741, cap: "Personal logistics: requests in named sections, trash slots below." },
+      ],
       title: 'Logistic requests: minimum, maximum & trash',
       category: 'Requests & groups',
       type: 'Explainer',
@@ -579,6 +636,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'personal-logistics',
+      img: [
+        { f: "Player logistics gui.png", w: 439, h: 741, cap: "The logistics tab: \"Personal logistics\" and \"Trash unrequested\" at the top, trash slots at the bottom." },
+      ],
       title: 'Personal logistics for your character',
       category: 'Requests & groups',
       type: 'How-to',
@@ -610,6 +670,10 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'logistic-groups',
+      img: [
+        { f: "Player logistics gui.png", w: 439, h: 741, cap: "Two named logistic groups on one character." },
+        { f: "Constant combinator gui.png", w: 448, h: 570, cap: "A constant combinator uses the same sections." },
+      ],
       title: 'Logistic groups',
       category: 'Requests & groups',
       type: 'Explainer',
@@ -635,6 +699,11 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'vehicle-requests',
+      img: [
+        { f: "Spidertron entity.png", w: 600, h: 600, fit: "cover", tw: 480, cap: "Spidertron" },
+        { f: "Spidertron GUI.png", w: 442, h: 832, cap: "Spidertron window with a Logistics tab and an equipment grid holding a roboport." },
+        { f: "Tank entity.png", w: 300, h: 300, fit: "cover", cap: "Tank" },
+      ],
       title: 'Spidertron & tank requests',
       category: 'Requests & groups',
       type: 'Reference',
@@ -657,6 +726,12 @@ const LOGISTICS_GUIDE = {
     /* ================= Construction ================= */
     {
       id: 'automated-construction',
+      img: [
+        { f: "Blueprint-example-05.png", w: 454, h: 332, fit: "cover", cap: "Construction robots building a blueprint." },
+        { f: "Blueprint-example-04.png", w: 386, h: 314, fit: "cover", cap: "A placed blueprint: ghosts waiting to be built." },
+        { f: "Destroyed entities ghosts.png", w: 617, h: 477, fit: "cover", tw: 480, cap: "Destroyed entities leave ghosts behind." },
+        { f: "Automated construction concrete.gif", w: 534, h: 331, tw: 480, cap: "Construction robots paving a path." },
+      ],
       title: 'Ghosts, blueprints & robot construction',
       category: 'Construction',
       type: 'Explainer',
@@ -684,6 +759,10 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'deconstruction-upgrades',
+      img: [
+        { f: "DeconstructionPlanner-CancelDemo.gif", w: 336, h: 230, tw: 335, cap: "Marking for deconstruction (red X) and cancelling it again." },
+        { f: "UpgradePlanner-PendingUpgradeOperationCircles.png", w: 622, h: 649, fit: "cover", tw: 480, cap: "Entities waiting for an upgrade are marked with yellow circles." },
+      ],
       title: 'Deconstruction & upgrades',
       category: 'Construction',
       type: 'Explainer',
@@ -704,6 +783,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'repairs',
+      img: [
+        { f: "Repair pack anim.gif", w: 304, h: 304, fit: "cover", tw: 303, cap: "A repair pack in use." },
+      ],
       title: 'Automatic repairs',
       category: 'Construction',
       type: 'How-to',
@@ -711,7 +793,7 @@ const LOGISTICS_GUIDE = {
       facts: [
         ['Repair pack', 'Heals 600 HP (300 durability × 2)'],
         ['Stack size', '100'],
-        ['Recipe', '2 electronic circuits + 2 iron gear wheels'],
+        ['Recipe', '2&nbsp;{i:Electronic circuit} + 2&nbsp;{i:Iron gear wheel}'],
         ['Roboport slots', '7 for repair packs'],
       ],
       steps: [
@@ -731,6 +813,10 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'personal-roboport',
+      img: [
+        { f: "Personal roboport preview.gif", w: 300, h: 300, fit: "cover", tw: 299, cap: "Construction robots working from a personal roboport." },
+        { f: "Spidertron GUI.png", w: 442, h: 832, cap: "A personal roboport MK2 in a spidertron grid: 25 robots, 4 charging spots, 40×40 area." },
+      ],
       title: 'Personal roboport (MK1 & MK2)',
       category: 'Construction',
       type: 'Reference',
@@ -749,7 +835,7 @@ const LOGISTICS_GUIDE = {
         'Stack several: robots and chargers add up, the area grows with the square root.',
       ],
       table: {
-        head: ['', 'MK1', 'MK2'],
+        head: ['', '{i:Personal roboport} MK1', '{i:Personal roboport MK2} MK2'],
         rows: [
           ['Robots supported', '10', '25'],
           ['Construction area', '30×30', '40×40'],
@@ -757,7 +843,7 @@ const LOGISTICS_GUIDE = {
           ['2 equipped', '20 robots, 42×42', '50 robots, 57×57'],
           ['4 equipped', '40 robots, 60×60', '100 robots, 80×80'],
           ['{SA} Robots by quality', '10 / 13 / 16 / 19 / 25', '25 / 32 / 40 / 47 / 62'],
-          ['Recipe', '45 batteries, 40 iron gear wheels, 20 steel plate, 10 advanced circuits', '5 personal roboports, 100 processing units, 20 low density structures. {SA} 5 personal roboports, 50 processing units, 50 superconductors.'],
+          ['Recipe', '45&nbsp;{i:Battery} 40&nbsp;{i:Iron gear wheel} 20&nbsp;{i:Steel plate} 10&nbsp;{i:Advanced circuit}', '5&nbsp;{i:Personal roboport} 100&nbsp;{i:Processing unit} 20&nbsp;{i:Low density structure}. {SA} 5&nbsp;{i:Personal roboport} 50&nbsp;{i:Processing unit} 50&nbsp;{i:Superconductor}.'],
         ],
       },
       body: `
@@ -771,16 +857,17 @@ const LOGISTICS_GUIDE = {
     /* ================= Circuit control ================= */
     {
       id: 'read-network',
+      icons: ["Roboport", "Signal-X", "Signal-Y", "Signal-Z", "Signal-T", "Signal-R"],
       title: 'Read the network with a roboport',
       category: 'Circuit control',
       type: 'Reference',
       sum: 'Wire any roboport to get the network\'s stock, its unfilled requests or its robot counts as signals.',
       facts: [
-        ['X', 'Available logistic robots'],
-        ['Y', 'Total logistic robots'],
-        ['Z', 'Available construction robots'],
-        ['T', 'Total construction robots'],
-        ['R', 'Roboports in the network'],
+        ['{i:Signal-X} X', 'Available logistic robots'],
+        ['{i:Signal-Y} Y', 'Total logistic robots'],
+        ['{i:Signal-Z} Z', 'Available construction robots'],
+        ['{i:Signal-T} T', 'Total construction robots'],
+        ['{i:Signal-R} R', 'Roboports in the network'],
       ],
       cheat: [
         'Mode 1: logistic network contents, one signal per item.',
@@ -797,6 +884,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'logistic-conditions',
+      icons: ["Inserter", "Transport belt", "Pump", "Lamp", "Power switch", "Train stop"],
       title: 'Logistic-network conditions (wireless control)',
       category: 'Circuit control',
       type: 'How-to',
@@ -820,6 +908,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'circuit-chests',
+      icons: ["Requester chest", "Buffer chest", "Red wire", "Green wire"],
       title: 'Circuit-controlled logistic chests',
       category: 'Circuit control',
       type: 'Reference',
@@ -841,6 +930,11 @@ const LOGISTICS_GUIDE = {
     /* ================= Space logistics ================= */
     {
       id: 'cargo-landing-pad',
+      img: [
+        { f: "Cargo landing pad entity anim.gif", w: 300, h: 300, fit: "cover", tw: 299, cap: "Cargo landing pad" },
+        { f: "Cargo bay entity.png", w: 300, h: 300, fit: "cover", cap: "Cargo bay" },
+        { f: "Landing pad unloading bay entity.png", w: 300, h: 300, fit: "cover", cap: "Landing pad unloading bay" },
+      ],
       title: 'Cargo landing pad',
       category: 'Space logistics',
       type: 'Reference',
@@ -851,7 +945,7 @@ const LOGISTICS_GUIDE = {
         ['Limit', 'One per surface'],
         ['Per cargo bay', '+20 slots, +1 hatch'],
         ['Cargo hatches', '3'],
-        ['Recipe', '200 concrete, 25 steel plate, 10 processing units'],
+        ['Recipe', '200&nbsp;{i:Concrete} 25&nbsp;{i:Steel plate} 10&nbsp;{i:Processing unit}'],
       ],
       cheat: [
         'Acts as a <b>passive provider</b>: robots and inserters can take items out.',
@@ -869,6 +963,10 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'rocket-silo-requests',
+      img: [
+        { f: "Rocket silo gui space age.png", w: 884, h: 567, cap: "Rocket silo window in Space Age. \"Automatic requests from space platforms\" is under Logistic requests." },
+        { f: "Rocket silo entity.png", w: 310, h: 310, fit: "cover", cap: "Rocket silo" },
+      ],
       title: 'Rocket silo: automatic requests',
       category: 'Space logistics',
       type: 'Explainer',
@@ -893,6 +991,11 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'platform-requests',
+      img: [
+        { f: "Space platform.jpg", w: 2112, h: 2180, fit: "cover", tw: 480, cap: "A space platform" },
+        { f: "Space station hub gui.png", w: 1756, h: 929, cap: "Platform hub window: inventory, requests and schedule." },
+        { f: "Space platform hub entity anim.gif", w: 300, h: 300, fit: "cover", tw: 299, cap: "Space platform hub" },
+      ],
       title: 'Space platform requests',
       category: 'Space logistics',
       type: 'Explainer',
@@ -921,6 +1024,7 @@ const LOGISTICS_GUIDE = {
     /* ================= Recipes ================= */
     {
       id: 'recipe-bot-mall',
+      flow: ["Requester chest", "Assembling machine 2|Assembler", "Passive provider chest"],
       title: 'Robot-fed assembler block (mall)',
       category: 'Recipes',
       type: 'How-to',
@@ -946,6 +1050,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'recipe-train-station',
+      img: [
+        { f: "RoboTrainStation small.gif", w: 420, h: 336, fit: "cover", tw: 419, cap: "A robot train station at work." },
+      ],
       title: 'Robot train unloading station',
       category: 'Recipes',
       type: 'How-to',
@@ -969,6 +1076,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'recipe-outpost',
+      img: [
+        { f: "Blueprint-example-05.png", w: 454, h: 332, fit: "cover", cap: "Construction robots at work on a wall with turrets." },
+      ],
       title: 'Self-repairing wall or outpost',
       category: 'Recipes',
       type: 'How-to',
@@ -993,6 +1103,9 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'recipe-buffer-depot',
+      img: [
+        { f: "Fff-203-buffer-chest-3.png", w: 896, h: 352, cap: "Storage chests → buffer chest → construction robots: stock held close to where it is built." },
+      ],
       title: 'Forward supply with buffer chests',
       category: 'Recipes',
       type: 'How-to',
@@ -1014,6 +1127,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'recipe-retire-robots',
+      flow: ["Roboport", "Inserter|Filtered inserter", "Steel chest|Chest"],
       title: 'Pull robots out of a network',
       category: 'Recipes',
       type: 'How-to',
@@ -1036,6 +1150,7 @@ const LOGISTICS_GUIDE = {
     /* ================= Troubleshooting ================= */
     {
       id: 'fix-not-delivered',
+      icons: ["Too-far-from-roboport-icon", "No-building-material-icon", "Not-enough-construction-robots-icon", "Not-enough-repair-packs-icon"],
       title: 'Robots are not delivering: checklist',
       category: 'Troubleshooting',
       type: 'Fix',
@@ -1063,6 +1178,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'fix-numbers',
+      icons: ["Logistic robot", "Iron plate"],
       title: 'Negative stock and overfilled requests',
       category: 'Troubleshooting',
       type: 'Fix',
@@ -1084,6 +1200,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'fix-slow-robots',
+      icons: ["Recharge-icon", "No-roboport-storage-space-icon", "Roboport"],
       title: 'Robots are slow or queue at roboports',
       category: 'Troubleshooting',
       type: 'Fix',
@@ -1104,6 +1221,7 @@ const LOGISTICS_GUIDE = {
     },
     {
       id: 'fix-storage-full',
+      icons: ["No-storage-space-icon", "Storage chest", "Active provider chest"],
       title: 'Storage full, or items stuck in active providers',
       category: 'Troubleshooting',
       type: 'Fix',

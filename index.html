@@ -674,6 +674,102 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
 .g-table tr:last-child td { border-bottom: 0; }
 .g-table td:first-child { font-weight: 600; }
 
+/* ---------- Guide: pictures ---------- */
+
+.ico {
+  width: 1.7em;
+  height: 1.7em;
+  margin: 0 0.08em;
+  vertical-align: -0.45em;
+  object-fit: contain;
+}
+.g-table .ico { width: 28px; height: 28px; vertical-align: -8px; }
+.cell-row { display: flex; align-items: flex-start; gap: 0.55rem; }
+.cell-icons { display: flex; flex: none; gap: 2px; }
+.cell-row > span:last-child { padding-top: 3px; }
+
+.g-media { position: relative; padding: 0.75rem 0.75rem 0; }
+.g-media .card-image { background: #23262D; }
+.gif-badge {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 0.5rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(20, 22, 27, 0.78);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+}
+
+.icon-strip, .flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--field);
+}
+.icon-strip { gap: 0.7rem; min-height: 104px; padding: 1rem; }
+.icon-strip img { width: 46px; height: 46px; object-fit: contain; }
+.icon-strip.many { gap: 0.5rem; }
+.icon-strip.many img { width: 36px; height: 36px; }
+.guide-card.wide .icon-strip { justify-content: flex-start; min-height: 0; padding: 0; background: none; }
+.guide-card.wide .icon-strip img { width: 40px; height: 40px; }
+
+.flow { gap: 0.3rem 0.35rem; min-height: 104px; padding: 0.9rem 0.6rem; }
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 74px;
+  color: var(--ink-2);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+.flow-node img { width: 44px; height: 44px; object-fit: contain; }
+.flow-arrow { color: var(--muted); font-size: 1.1rem; font-weight: 700; }
+
+.a-gallery { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.9rem; }
+.shot { flex: 1 1 230px; max-width: 470px; min-width: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.shot-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: #23262D;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.shot-btn img { display: block; width: 100%; height: auto; max-height: 440px; object-fit: contain; }
+.card-image.cover { object-fit: cover; }
+.shot figcaption { color: var(--muted); font-size: 0.85rem; line-height: 1.45; }
+
+.more { border-top: 1px solid var(--line-soft); padding-top: 0.75rem; }
+.more > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+.more > summary::-webkit-details-marker { display: none; }
+.more > summary::before { content: '+'; display: inline-block; width: 1rem; color: var(--muted); font-size: 1.1rem; text-align: center; }
+.more[open] > summary::before { content: '–'; }
+.more[open] > summary { margin-bottom: 0.9rem; }
+.more-body { display: flex; flex-direction: column; gap: 0.9rem; }
+
+.preview-cap { max-width: 70ch; color: var(--muted); font-size: 0.95rem; line-height: 1.5; text-align: center; }
+
 /* ---------- Guide: cheat-sheet cards ---------- */
 
 .guide .group-title:not(:first-child) { margin-top: 2rem; }
@@ -969,7 +1065,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   <div class="preview-body" role="dialog" aria-modal="true">
     <button class="preview-close" id="previewClose" type="button" aria-label="Close">×</button>
     <img class="preview-image" id="previewImg" alt="">
-    <div class="preview-info"><h2 id="previewTitle"></h2></div>
+    <div class="preview-info"><h2 id="previewTitle"></h2><p class="preview-cap" id="previewCap"></p></div>
   </div>
 </div>
 
@@ -1005,9 +1101,23 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   const ext = (href, label) =>
     '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
 
+  /* Wiki-hosted pictures: full file, pre-generated thumbnail, 64px item icon */
+  const wikiName = name => encodeURIComponent(name.replace(/ /g, '_'));
+  const wikiFile = name => WIKI + 'images/' + wikiName(name);
+  const wikiThumb = (name, w) => WIKI + 'images/thumb/' + wikiName(name) + '/' + w + 'px-' + wikiName(name);
+  const fallback = name => ' onerror="this.onerror=null;this.src=\'' + wikiFile(name) + '\'"';
+  function iconHtml(name) {
+    const file = name + '.png';
+    const label = name.replace(/-icon$/, '').replace(/^Signal[-_ ]/, 'Signal ').replace(/-/g, ' ');
+    const big = /\(research\)$/.test(name);
+    return '<img class="ico" loading="lazy" alt="' + label + '" title="' + label + '" src="' +
+      (big ? wikiThumb(file, 64) : wikiFile(file)) + '"' + (big ? fallback(file) : '') + '>';
+  }
+
   /* Inline shorthand used by the guide text */
   function fmt(s) {
     return String(s)
+      .replace(/\{i:([^}]+)\}/g, (all, name) => iconHtml(name))
       .replace(/\{SA\}/g, '<span class="tag sa" title="Space Age expansion">SA</span>')
       .replace(/\{2\.1\}/g, '<span class="tag ver" title="Added in game version 2.1">2.1</span>')
       .replace(/\{red\}/g, '<span class="w r">red</span>')
@@ -1097,7 +1207,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
         m.byId[d.id] = d;
         if (!m.types.includes(d.type)) m.types.push(d.type);
       });
-      m.index = items.map(d => stripHtml(fmt([
+      m.index = items.map(d => stripHtml(fmt(String([
         d.title, d.category, d.type, d.sa ? 'space age' : '', d.sum,
         (d.facts || []).map(f => f.join(' ')).join(' '),
         (d.cheat || []).join(' '),
@@ -1105,8 +1215,10 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
         (d.steps || []).join(' '),
         d.table ? [d.table.cap || ''].concat(d.table.head, ...d.table.rows).join(' ') : '',
         d.diagram ? d.diagram.nodes.map(n => n.t + ' ' + n.l.join(' ')).join(' ') + ' ' + (d.diagram.cap || '') : '',
+        (d.img || []).map(i => i.cap || '').join(' '),
+        (d.flow || []).join(' ').replace(/\|/g, ' '),
         d.kw || '',
-      ].join(' '))).toLowerCase());
+      ].join(' ')).replace(/\{i:[^}]+\}/g, ' '))).toLowerCase());
       m.stats = [
         ['Topics', items.length],
         ['How-tos', items.filter(d => d.type === 'How-to').length],
@@ -1275,12 +1387,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     img.src = d.image;
     img.alt = d.title;
     imgBtn.appendChild(img);
-    imgBtn.onclick = () => {
-      previewImg.src = d.image;
-      previewImg.alt = d.title;
-      previewTitle.textContent = d.title;
-      preview.classList.add('show');
-    };
+    imgBtn.onclick = () => openPreview(d.image, d.title, '');
     media.appendChild(imgBtn);
     el.appendChild(media);
 
@@ -1380,7 +1487,90 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     return el;
   }
 
+  function openPreview(src, title, cap) {
+    previewImg.src = src;
+    previewImg.alt = title;
+    previewTitle.textContent = title;
+    $('previewCap').textContent = cap || '';
+    preview.classList.add('show');
+  }
+
   /* ---------- Guide pieces ---------- */
+  const isGif = f => /\.gif$/i.test(f);
+
+  /* One wiki picture as a button that opens the full-size file.
+     still = true shows the light thumbnail (a still frame for GIFs). */
+  function shotButton(d, im, cls, still) {
+    const btn = el('button', cls);
+    btn.type = 'button';
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.alt = im.cap || d.title;
+    if (im.w && im.h) { img.width = im.w; img.height = im.h; }
+    const full = wikiFile(im.f);
+    const useThumb = im.tw && (still || !isGif(im.f));
+    if (useThumb) img.onerror = () => { img.onerror = null; img.src = full; };
+    img.src = useThumb ? wikiThumb(im.f, im.tw) : full;
+    btn.appendChild(img);
+    btn.onclick = () => openPreview(full, d.title, im.cap);
+    return { btn, img };
+  }
+
+  function iconStrip(names) {
+    const wrap = el('div', 'icon-strip' + (names.length > 5 ? ' many' : ''));
+    wrap.innerHTML = names.map(iconHtml).join('');
+    return wrap;
+  }
+
+  /* A left-to-right chain of items: ['Requester chest', 'Inserter', 'Assembling machine 2|Assembler'] */
+  function flowEl(steps) {
+    const wrap = el('div', 'flow');
+    steps.forEach((s, i) => {
+      if (i) wrap.appendChild(el('span', 'flow-arrow', '→'));
+      const parts = s.split('|');
+      const node = el('span', 'flow-node');
+      node.innerHTML = iconHtml(parts[0]);
+      node.appendChild(el('span', null, parts[1] || parts[0]));
+      wrap.appendChild(node);
+    });
+    return wrap;
+  }
+
+  /* Picture area at the top of a cheat-sheet card */
+  function cardMedia(d) {
+    if (d.wide) return d.icons ? iconStrip(d.icons) : null;
+    const media = el('div', 'g-media');
+    if (d.img) {
+      const im = d.img[0];
+      const { btn, img } = shotButton(d, im, 'card-image-btn', true);
+      img.className = 'card-image' + (im.fit === 'cover' ? ' cover' : '');
+      media.appendChild(btn);
+      if (isGif(im.f)) media.appendChild(el('span', 'gif-badge', '▶ GIF'));
+    } else if (d.flow) {
+      media.appendChild(flowEl(d.flow));
+    } else if (d.icons) {
+      media.appendChild(iconStrip(d.icons));
+    } else {
+      return null;
+    }
+    return media;
+  }
+
+  function galleryEl(d) {
+    const wrap = el('div', 'a-gallery');
+    d.img.forEach(im => {
+      const fig = el('figure', 'shot');
+      if (im.w && im.h) {
+        const ar = im.w / im.h;
+        fig.style.flex = ar.toFixed(3) + ' 1 ' + Math.round(Math.min(Math.max(ar * 200, 180), 520)) + 'px';
+        fig.style.maxWidth = Math.min(im.w, 640) + 'px';
+      }
+      fig.appendChild(shotButton(d, im, 'shot-btn', false).btn);
+      if (im.cap) fig.appendChild(el('figcaption', null, im.cap));
+      wrap.appendChild(fig);
+    });
+    return wrap;
+  }
   function badges(m, d) {
     const wrap = el('div', 'g-badges');
     wrap.appendChild(el('span', 'badge', d.type));
@@ -1390,9 +1580,9 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     return wrap;
   }
 
-  function factsList(d) {
+  function factsList(d, max) {
     const dl = el('dl', 'facts');
-    d.facts.forEach(([k, v]) => {
+    d.facts.slice(0, max || d.facts.length).forEach(([k, v]) => {
       const dt = el('dt');
       dt.innerHTML = fmt(k);
       dl.appendChild(dt);
@@ -1403,9 +1593,9 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     return dl;
   }
 
-  function cheatList(d) {
+  function cheatList(d, max) {
     const ul = el('ul', 'cheat');
-    d.cheat.forEach(c => {
+    d.cheat.slice(0, max || d.cheat.length).forEach(c => {
       const li = el('li');
       li.innerHTML = fmt(c);
       ul.appendChild(li);
@@ -1420,7 +1610,11 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     if (t.cap) table.appendChild(el('caption', null, t.cap));
     const thead = el('thead');
     const hr = el('tr');
-    t.head.forEach(hd => hr.appendChild(el('th', null, hd)));
+    t.head.forEach(hd => {
+      const th = el('th');
+      th.innerHTML = fmt(hd);
+      hr.appendChild(th);
+    });
     thead.appendChild(hr);
     table.appendChild(thead);
     const tbody = el('tbody');
@@ -1428,7 +1622,10 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
       const tr = el('tr');
       r.forEach(c => {
         const td = el('td');
-        td.innerHTML = fmt(c);
+        const lead = /^((?:\{i:[^}]+\})+)\s*([\s\S]+)$/.exec(c);
+        td.innerHTML = lead
+          ? '<span class="cell-row"><span class="cell-icons">' + fmt(lead[1]) + '</span><span>' + fmt(lead[2]) + '</span></span>'
+          : fmt(c);
         tr.appendChild(td);
       });
       tbody.appendChild(tr);
@@ -1518,9 +1715,12 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   function guideCard(m, d) {
     const card = el('article', 'card-item guide-card' + (d.wide ? ' wide' : ''));
     card.style.setProperty('--stripe', m.color(d.category));
+    const media = cardMedia(d);
+    if (media && !d.wide) card.appendChild(media);
     const body = el('div', 'g-body');
 
     body.appendChild(badges(m, d));
+    if (media && d.wide) body.appendChild(media);
     const h = el('h3', 'g-title');
     const a = el('a', null, d.title);
     a.href = href(m, d);
@@ -1532,13 +1732,13 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     body.appendChild(sum);
 
     if (d.facts || d.cheat || (d.wide && d.table)) body.appendChild(el('div', 'g-rule'));
-    if (d.facts) body.appendChild(factsList(d));
-    if (d.cheat) body.appendChild(cheatList(d));
+    if (d.facts) body.appendChild(factsList(d, d.wide ? 0 : 4));
+    if (d.cheat) body.appendChild(cheatList(d, d.wide ? 0 : d.facts ? 2 : 3));
     if (d.wide && d.table) body.appendChild(tableEl(d.table));
 
     const more = el('a', 'read-btn');
     more.href = href(m, d);
-    more.appendChild(el('span', null, d.diagram ? 'Full explanation + wiring diagram' : 'Full explanation'));
+    more.appendChild(el('span', null, d.diagram ? 'Open topic + wiring diagram' : 'Open topic'));
     more.appendChild(el('span', null, '→'));
     body.appendChild(more);
 
@@ -1547,7 +1747,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   }
 
   /* Full article (used by the "Full guide" view and by the reader) */
-  function guideArticle(m, d) {
+  function guideArticle(m, d, expanded) {
     const art = el('article', 'article');
     art.style.setProperty('--stripe', m.color(d.category));
     const inner = el('div', 'a-inner');
@@ -1559,6 +1759,8 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     sum.innerHTML = fmt(d.sum);
     head.appendChild(sum);
     inner.appendChild(head);
+    if (d.img) inner.appendChild(galleryEl(d));
+    if (d.flow && !d.diagram) inner.appendChild(flowEl(d.flow));
     if (d.diagram) inner.appendChild(diagramEl(d.diagram));
     if (d.wide && d.table) inner.appendChild(tableEl(d.table));
 
@@ -1566,11 +1768,6 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     const grid = el('div', 'a-grid' + (hasAside ? '' : ' solo'));
 
     const prose = el('div', 'prose');
-    if (d.body) {
-      const bodyWrap = document.createElement('div');
-      bodyWrap.innerHTML = fmt(d.body);
-      while (bodyWrap.firstChild) prose.appendChild(bodyWrap.firstChild);
-    }
     if (d.steps) {
       prose.appendChild(el('h4', null, 'Step by step'));
       const ol = el('ol', 'steps');
@@ -1582,10 +1779,14 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
       prose.appendChild(ol);
     }
     if (d.table && !d.wide) prose.appendChild(tableEl(d.table));
-    if (d.after) {
-      const afterWrap = document.createElement('div');
-      afterWrap.innerHTML = fmt(d.after);
-      while (afterWrap.firstChild) prose.appendChild(afterWrap.firstChild);
+    if (d.body) {
+      const more = el('details', 'more');
+      more.open = !!expanded;
+      more.appendChild(el('summary', null, 'More detail'));
+      const moreBody = el('div', 'more-body');
+      moreBody.innerHTML = fmt(d.body);
+      more.appendChild(moreBody);
+      prose.appendChild(more);
     }
     if (d.src) prose.appendChild(sourcesEl(d));
     grid.appendChild(prose);
@@ -1607,7 +1808,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   /* ---------- Reader (one topic, deep-linkable) ---------- */
   function openReader(m, d) {
     readerContent.innerHTML = '';
-    readerContent.appendChild(guideArticle(m, d));
+    readerContent.appendChild(guideArticle(m, d, true));
     reader.classList.add('show');
     document.body.classList.add('modal-open');
     reader.querySelector('.reader-body').scrollTop = 0;

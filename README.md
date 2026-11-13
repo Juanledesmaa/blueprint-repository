@@ -6,12 +6,13 @@ Personal Factorio lookup site with three tabs:
 - **Logistics** — the logistic network: robots, roboports, chests, requests, groups, space logistics.
 - **Combinators** — the circuit network: wires, signals, the four combinators, building blocks and ready-to-build circuits with wiring diagrams.
 
-The two guide tabs have search, section chips, a type filter (Explainer / Reference / How-to / Fix) and two views: a **cheat sheet** of compact cards and a **full guide** with the complete explanation of every topic. Each topic has its own link, e.g. `#combinators/sr-latch`.
+The two guide tabs have search, section chips, a type filter (Explainer / Reference / How-to / Fix) and two views: a **cheat sheet** of picture cards and a **full guide** with screenshots, wiring diagrams, steps and the longer explanation folded under "More detail". Each topic has its own link, e.g. `#combinators/sr-latch`.
 
 ## Sources
 
 - Blueprint data and images: [autosaved.org/factorio/blueprints](https://autosaved.org/factorio/blueprints) (images are hotlinked from their S3 bucket, not stored here).
 - Guide content: researched from the [official Factorio Wiki](https://wiki.factorio.com/) (CC BY-NC-SA 3.0) and rewritten; checked against game version 2.1, base game + Space Age. Every topic lists the wiki pages it is based on.
+- Guide pictures: in-game screenshots, animations and item icons hotlinked from the wiki's image server (`wiki.factorio.com/images/…`), not stored here.
 
 ## Structure
 
@@ -36,12 +37,17 @@ Append an object to `entries` in one of the guide files:
   body: `<p>Full explanation…</p>`,     // full guide
   steps: ['First do this'],             // optional numbered steps
   table: { head: ['A', 'B'], rows: [['1', '2']] },  // optional; add wide: true for a full-width card
+  img: [{ f: 'Roboport gui.png', cap: 'Caption' }],  // wiki file names; the first one is the card picture
+  icons: ['Roboport', 'Logistic robot'],             // or: a strip of item icons on the card
+  flow: ['Requester chest', 'Inserter', 'Assembling machine 2|Assembler'],  // or: an icon chain
   src: ['Wiki page title'],             // links to wiki.factorio.com
   kw: 'extra search words',
 }
 ```
 
-Text shorthand: `{SA}` Space Age badge, `{2.1}` version badge, `{red}` / `{green}` coloured wire names, `[[logistics/roboport|Roboport]]` link to another topic.
+Pictures: `f` is the file name as on the wiki (`File:Roboport gui.png` → `'Roboport gui.png'`). Optional extras: `w` / `h` (pixel size, avoids layout jumps), `tw` (width of a wiki thumbnail to show instead of the full file; GIFs then show a still on cards and animate when opened; falls back to the full file if the thumbnail does not exist), `fit: 'cover'` (crop to fill the card).
+
+Text shorthand: `{SA}` Space Age badge, `{2.1}` version badge, `{red}` / `{green}` coloured wire names, `{i:Steel plate}` inline item icon (the wiki's icon file name without `.png`), `[[logistics/roboport|Roboport]]` link to another topic.
 
 ## Deploy
 

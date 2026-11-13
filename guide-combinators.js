@@ -190,6 +190,9 @@ const COMBINATORS_GUIDE = (() => {
       /* ================= Basics ================= */
       {
         id: 'overview',
+        img: [
+          { f: "Shared circuit network.png", w: 704, h: 192, cap: "Two circuit networks, one red and one green, sharing the same poles." },
+        ],
         title: 'What the circuit network is',
         category: 'Basics',
         type: 'Explainer',
@@ -222,13 +225,19 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'wires',
+        img: [
+          { f: "Red wire cable.png", w: 300, h: 300, fit: "cover", cap: "Red wire on a pole" },
+          { f: "Green wire cable.png", w: 300, h: 300, fit: "cover", cap: "Green wire on a pole" },
+          { f: "Copper-wire-in-shortcut-bar.png", w: 530, h: 120, cap: "The wire tools live in the shortcut bar." },
+          { f: "Shared circuit network.png", w: 704, h: 192, cap: "Red and green stay separate even on the same pole." },
+        ],
         title: 'Red & green wires',
         category: 'Basics',
         type: 'Explainer',
         sum: 'Two independent wire colours. Same colour joins into one network; red and green never mix.',
         facts: [
-          ['Red wire', '<kbd>Alt</kbd> + <kbd>R</kbd>'],
-          ['Green wire', '<kbd>Alt</kbd> + <kbd>G</kbd>'],
+          ['{i:Red wire} Red wire', '<kbd>Alt</kbd> + <kbd>R</kbd>'],
+          ['{i:Green wire} Green wire', '<kbd>Alt</kbd> + <kbd>G</kbd>'],
           ['Cost', 'Free (shortcut bar tools since 2.0)'],
           ['Clear a pole', '<kbd>Shift</kbd> + click it (twice for circuit wires)'],
         ],
@@ -258,6 +267,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'first-circuit',
+        img: [
+          { f: "LightWiredToChest.png", w: 636, h: 769, cap: "The finished circuit: a chest wired to a lamp, and the lamp's \"Enable if\" condition." },
+        ],
         title: 'Your first circuit: a warning lamp',
         category: 'Basics',
         type: 'How-to',
@@ -285,6 +297,9 @@ const COMBINATORS_GUIDE = (() => {
       /* ================= Signals & logic ================= */
       {
         id: 'signals',
+        img: [
+          { f: "MulitipleChestsAndPoles.png", w: 430, h: 414, cap: "Hovering a pole shows the signals on its network. Here it is the sum of both chests." },
+        ],
         title: 'Signals: channels and numbers',
         category: 'Signals & logic',
         type: 'Explainer',
@@ -310,6 +325,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'summing',
+        icons: ["Red wire", "Green wire", "Inserter"],
         title: 'How wires combine at a device',
         category: 'Signals & logic',
         type: 'Explainer',
@@ -330,6 +346,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'timing',
+        icons: ["Constant combinator", "Arithmetic combinator", "Decider combinator"],
         title: 'Ticks and delays',
         category: 'Signals & logic',
         type: 'Explainer',
@@ -354,6 +371,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'virtual-signals',
+        img: [
+          { f: "Virtual Signals dialog box.png", w: 450, h: 940, cap: "The signal picker: the three logic signals on top, then digits, letters, colours and icons." },
+        ],
         title: 'Virtual signals',
         category: 'Signals & logic',
         type: 'Reference',
@@ -377,6 +397,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'logic-signals',
+        icons: ["Signal everything", "Signal anything", "Signal each"],
         title: 'Everything, Anything, Each',
         category: 'Signals & logic',
         type: 'Reference',
@@ -385,9 +406,9 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Wildcard', 'Icon', 'As a condition', 'As a combinator output', 'Where it works'],
           rows: [
-            ['Everything', 'Red star', 'True when <b>all</b> non-zero signals pass. Also true when there are no signals at all.', 'Decider: passes every non-zero input signal. Not allowed together with an Each condition.', 'Left side of any condition; decider output'],
-            ['Anything', 'Green star', 'True when <b>at least one</b> signal passes. False when there are no signals.', 'Decider: passes one signal, the first match in Factoriopedia order (wooden chest comes first).', 'Left side of any condition; decider output'],
-            ['Each', 'Yellow star', 'Runs the combinator once for every non-zero signal, each on its own.', 'Each as output: one result per signal. A normal signal as output: all results added together.', 'Arithmetic and decider combinators only'],
+            ['Everything', '{i:Signal everything} Red star', 'True when <b>all</b> non-zero signals pass. Also true when there are no signals at all.', 'Decider: passes every non-zero input signal. Not allowed together with an Each condition.', 'Left side of any condition; decider output'],
+            ['Anything', '{i:Signal anything} Green star', 'True when <b>at least one</b> signal passes. False when there are no signals.', 'Decider: passes one signal, the first match in Factoriopedia order (wooden chest comes first).', 'Left side of any condition; decider output'],
+            ['Each', '{i:Signal each} Yellow star', 'Runs the combinator once for every non-zero signal, each on its own.', 'Each as output: one result per signal. A normal signal as output: all results added together.', 'Arithmetic and decider combinators only'],
           ],
         },
         cheat: [
@@ -406,6 +427,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'default-signals',
+        icons: ["Signal-A", "Signal-G", "Signal-T", "Signal-C", "Signal-L", "Signal-P", "Signal-S", "Signal-E"],
         title: 'Default signal letters',
         category: 'Signals & logic',
         type: 'Reference',
@@ -414,22 +436,22 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Signal', 'Device', 'Meaning', 'Direction'],
           rows: [
-            ['A', 'Accumulator', 'Charge level, 0–100%', 'Output'],
-            ['G', 'Gate (via the wall next to it)', 'A player or vehicle is opening the gate', 'Output'],
-            ['T', 'Nuclear reactor, heating tower {SA}, heat pipe {2.1}', 'Temperature', 'Output'],
-            ['T', 'Train stop', 'ID number of the stopped train', 'Output'],
-            ['C', 'Train stop', 'Trains on their way here, including the one at the stop', 'Output'],
-            ['L', 'Train stop', 'Train limit', 'Input'],
-            ['P', 'Train stop', 'Priority (0–255, default 50)', 'Input'],
-            ['S', 'Inserter', 'Stack size override', 'Input'],
-            ['E', 'Chests, logistic chests, cargo landing pad {2.1}', 'Empty slots', 'Output'],
-            ['X / Y', 'Roboport', 'Available / total logistic robots', 'Output'],
-            ['Z / T', 'Roboport', 'Available / total construction robots', 'Output'],
-            ['R', 'Roboport', 'Roboports in the network', 'Output'],
-            ['R', 'Rocket silo {2.1}', 'One-tick pulse when a rocket launches', 'Output'],
-            ['V / D', 'Space platform hub {SA}', 'Speed / damage taken', 'Output'],
-            ['T / D / L', 'Selector combinator, Time mode {2.1}', 'Game tick / tick of the day / day length', 'Output'],
-            ['Red, yellow, green', 'Rail signal', 'Its current state. Chain signals add blue.', 'Output'],
+            ['{i:Signal-A} A', '{i:Accumulator} Accumulator', 'Charge level, 0–100%', 'Output'],
+            ['{i:Signal-G} G', '{i:Gate} Gate (via the wall next to it)', 'A player or vehicle is opening the gate', 'Output'],
+            ['{i:Signal-T} T', '{i:Nuclear reactor} Nuclear reactor, heating tower {SA}, heat pipe {2.1}', 'Temperature', 'Output'],
+            ['{i:Signal-T} T', '{i:Train stop} Train stop', 'ID number of the stopped train', 'Output'],
+            ['{i:Signal-C} C', '{i:Train stop} Train stop', 'Trains on their way here, including the one at the stop', 'Output'],
+            ['{i:Signal-L} L', '{i:Train stop} Train stop', 'Train limit', 'Input'],
+            ['{i:Signal-P} P', '{i:Train stop} Train stop', 'Priority (0–255, default 50)', 'Input'],
+            ['{i:Signal-S} S', '{i:Inserter} Inserter', 'Stack size override', 'Input'],
+            ['{i:Signal-E} E', '{i:Steel chest} Chests, logistic chests, cargo landing pad {2.1}', 'Empty slots', 'Output'],
+            ['{i:Signal-X}{i:Signal-Y} X / Y', '{i:Roboport} Roboport', 'Available / total logistic robots', 'Output'],
+            ['{i:Signal-Z}{i:Signal-T} Z / T', '{i:Roboport} Roboport', 'Available / total construction robots', 'Output'],
+            ['{i:Signal-R} R', '{i:Roboport} Roboport', 'Roboports in the network', 'Output'],
+            ['{i:Signal-R} R', '{i:Rocket silo} Rocket silo {2.1}', 'One-tick pulse when a rocket launches', 'Output'],
+            ['{i:Signal-V}{i:Signal-D} V / D', '{i:Space platform hub} Space platform hub {SA}', 'Speed / damage taken', 'Output'],
+            ['{i:Signal-T}{i:Signal-D}{i:Signal-L} T / D / L', '{i:Selector combinator} Selector combinator, Time mode {2.1}', 'Game tick / tick of the day / day length', 'Output'],
+            ['{i:Signal-Red}{i:Signal-Yellow}{i:Signal-Green} Red, yellow, green', '{i:Rail signal} Rail signal', 'Its current state. Chain signals add blue.', 'Output'],
           ],
         },
         cheat: [
@@ -443,6 +465,7 @@ const COMBINATORS_GUIDE = (() => {
       /* ================= Combinators ================= */
       {
         id: 'combinator-comparison',
+        icons: ["Constant combinator", "Arithmetic combinator", "Decider combinator", "Selector combinator"],
         title: 'The four combinators at a glance',
         category: 'Combinators',
         type: 'Reference',
@@ -451,10 +474,10 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Combinator', 'What it does', 'Power', 'Recipe', 'Unlock'],
           rows: [
-            ['Constant', 'Outputs fixed signals you type in. No input.', 'None', '5 copper cable, 2 electronic circuits', 'Circuit network'],
-            ['Arithmetic', 'Does maths on signals: + − × ÷ %, power, bit shifts, AND, OR, XOR.', '1 kW', '5 copper cable, 5 electronic circuits', 'Circuit network'],
-            ['Decider', 'Tests conditions (with AND / OR) and outputs signals when they hold.', '1 kW', '5 copper cable, 5 electronic circuits', 'Circuit network'],
-            ['Selector', 'Picks the largest or smallest signal, counts, picks at random, looks up stack size and more.', '1 kW', '5 decider combinators, 2 advanced circuits', 'Advanced combinators'],
+            ['{i:Constant combinator} Constant', 'Outputs fixed signals you type in. No input.', 'None', '5&nbsp;{i:Copper cable} 2&nbsp;{i:Electronic circuit}', 'Circuit network'],
+            ['{i:Arithmetic combinator} Arithmetic', 'Does maths on signals: + − × ÷ %, power, bit shifts, AND, OR, XOR.', '1 kW', '5&nbsp;{i:Copper cable} 5&nbsp;{i:Electronic circuit}', 'Circuit network'],
+            ['{i:Decider combinator} Decider', 'Tests conditions (with AND / OR) and outputs signals when they hold.', '1 kW', '5&nbsp;{i:Copper cable} 5&nbsp;{i:Electronic circuit}', 'Circuit network'],
+            ['{i:Selector combinator} Selector', 'Picks the largest or smallest signal, counts, picks at random, looks up stack size and more.', '1 kW', '5&nbsp;{i:Decider combinator} 2&nbsp;{i:Advanced circuit}', 'Advanced combinators'],
           ],
         },
         cheat: [
@@ -469,6 +492,10 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'constant-combinator',
+        img: [
+          { f: "Constant combinator gui.png", w: 448, h: 570, cap: "Constant combinator window: the on/off switch and one section of signals." },
+          { f: "ConstantComb.png", w: 413, h: 334, cap: "Its signals as seen on a connected pole." },
+        ],
         title: 'Constant combinator',
         category: 'Combinators',
         type: 'Reference',
@@ -476,7 +503,7 @@ const COMBINATORS_GUIDE = (() => {
         facts: [
           ['Power', 'None needed'],
           ['Switch', 'On/off toggle in its window'],
-          ['Recipe', '5 copper cable + 2 electronic circuits'],
+          ['Recipe', '5&nbsp;{i:Copper cable} + 2&nbsp;{i:Electronic circuit}'],
         ],
         cheat: [
           'The place for thresholds, targets, whitelists and settings.',
@@ -493,6 +520,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'arithmetic-combinator',
+        img: [
+          { f: "Arithmetic combinator gui.png", w: 884, h: 476, cap: "Arithmetic combinator window: two operands with red/green tick boxes, the operation and the output." },
+        ],
         title: 'Arithmetic combinator',
         category: 'Combinators',
         type: 'Reference',
@@ -522,6 +552,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'arithmetic-ops',
+        img: [
+          { f: "Bitshiftleft.png", w: 288, h: 188, cap: "Bit shift left: every bit moves one place and a 0 enters on the right." },
+        ],
         title: 'Arithmetic operations cheat sheet',
         category: 'Combinators',
         type: 'Reference',
@@ -552,6 +585,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'decider-combinator',
+        img: [
+          { f: "Decider combinator gui.png", w: 884, h: 584, cap: "Decider combinator window: conditions on the left, outputs on the right." },
+        ],
         title: 'Decider combinator',
         category: 'Combinators',
         type: 'Reference',
@@ -591,13 +627,14 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'selector-combinator',
+        icons: ["Selector combinator"],
         title: 'Selector combinator',
         category: 'Combinators',
         type: 'Reference',
         sum: 'Sorting, counting, random choice and item look-ups in a single combinator.',
         facts: [
           ['Unlock', 'Advanced combinators'],
-          ['Recipe', '5 decider combinators + 2 advanced circuits'],
+          ['Recipe', '5&nbsp;{i:Decider combinator} + 2&nbsp;{i:Advanced circuit}'],
           ['Power', '1 kW'],
         ],
         cheat: [
@@ -630,6 +667,10 @@ const COMBINATORS_GUIDE = (() => {
       /* ================= Devices ================= */
       {
         id: 'lamp',
+        img: [
+          { f: "Lamp colors.png", w: 817, h: 445, tw: 480, cap: "Each lamp takes its colour from the colour signal it receives." },
+          { f: "Lamp circuit gui.png", w: 636, h: 456, cap: "Lamp window with the \"Use colors\" options." },
+        ],
         title: 'Lamp',
         category: 'Devices',
         type: 'Reference',
@@ -650,6 +691,11 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'display-panel',
+        img: [
+          { f: "Display panel entity.png", w: 300, h: 300, fit: "cover", cap: "A display panel showing an icon and a line of text." },
+          { f: "Display panel circuit interface.png", w: 480, h: 548, cap: "Wired: conditions and messages, checked from top to bottom." },
+          { f: "Display panel gui.png", w: 445, h: 700, cap: "Unwired: a fixed icon and text." },
+        ],
         title: 'Display panel',
         category: 'Devices',
         type: 'Reference',
@@ -657,7 +703,7 @@ const COMBINATORS_GUIDE = (() => {
         facts: [
           ['Power', 'None needed'],
           ['Conditions', 'Up to 100 messages'],
-          ['Recipe', '1 electronic circuit + 1 iron plate'],
+          ['Recipe', '{i:Electronic circuit} + {i:Iron plate}'],
         ],
         cheat: [
           'Conditions are checked top to bottom. The <b>first</b> match is shown.',
@@ -672,6 +718,10 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'programmable-speaker',
+        img: [
+          { f: "Programmable speaker entity.png", w: 300, h: 300, fit: "cover", cap: "Programmable speaker" },
+          { f: "Programmable speaker gui.png", w: 448, h: 780, cap: "Speaker window: condition, playback mode, polyphony and alert options." },
+        ],
         title: 'Programmable speaker',
         category: 'Devices',
         type: 'Reference',
@@ -679,13 +729,13 @@ const COMBINATORS_GUIDE = (() => {
         facts: [
           ['Power', '2 kW'],
           ['Alert text', 'Up to 150 characters'],
-          ['Recipe', '5 copper cable, 4 electronic circuits, 3 iron plate, 4 iron sticks'],
+          ['Recipe', '5&nbsp;{i:Copper cable} 4&nbsp;{i:Electronic circuit} 3&nbsp;{i:Iron plate} 4&nbsp;{i:Iron stick}'],
         ],
         cheat: [
           '<b>Show alert</b>: icon and message in the alert area for every player.',
           'Playback can be local or reach the whole surface or everywhere.',
           'Turn <b>Allow polyphony</b> off for alarms so the sound does not stack.',
-          'An option makes the signal value set the pitch, which turns it into an instrument.',
+          '<b>Signal value is pitch</b> turns it into an instrument.',
           'Volume can also be set by a signal.',
         ],
         body: `<p>For an alarm, wire the speaker to whatever you are watching, set the condition, tick "Show alert" and pick an icon and message. With polyphony off the sound repeats about twice per second while the condition holds; with it on, a constant signal re-triggers the sound many times per second.</p>
@@ -696,6 +746,10 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'power-switch',
+        img: [
+          { f: "Power switch toggle.gif", w: 618, h: 221, tw: 480, cap: "Toggling a power switch connects and disconnects the two sides." },
+          { f: "Power switch entity anim.gif", w: 300, h: 300, fit: "cover", tw: 299, cap: "Copper wire attaches to each side of the switch." },
+        ],
         title: 'Power switch',
         category: 'Devices',
         type: 'Reference',
@@ -704,7 +758,7 @@ const COMBINATORS_GUIDE = (() => {
           ['Power use', 'None'],
           ['Throughput', 'Unlimited'],
           ['Wire reach', '9 tiles'],
-          ['Recipe', '5 copper cable, 2 electronic circuits, 5 iron plate'],
+          ['Recipe', '5&nbsp;{i:Copper cable} 2&nbsp;{i:Electronic circuit} 5&nbsp;{i:Iron plate}'],
         ],
         cheat: [
           'Attach <b>copper wire</b> to each side from a pole of each network.',
@@ -719,6 +773,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'radar-link',
+        img: [
+          { f: "Radar entity anim.gif", w: 300, h: 300, fit: "cover", tw: 299, cap: "Radar" },
+        ],
         title: 'Radar: wireless signals',
         category: 'Devices',
         type: 'Reference',
@@ -738,6 +795,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'dev-storage',
+        icons: ["Steel chest", "Requester chest", "Storage tank", "Roboport", "Cargo landing pad"],
         title: 'Connectable devices: storage & logistics',
         category: 'Devices',
         type: 'Reference',
@@ -746,12 +804,12 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Device', 'Can output', 'Can be controlled'],
           rows: [
-            ['Wooden, iron, steel chest', 'Contents. {2.1} Empty slots (E).', '—'],
-            ['Logistic chests', 'Contents. {2.1} Empty slots (E).', 'Enable/disable on a condition. Requester and buffer: set requests from signals.'],
-            ['Storage tank', 'Contents. {2.1} Contents of the whole pipeline, fluid temperature.', '—'],
-            ['Pipe, pipe to ground {2.1}', 'Contents, pipeline contents, fluid temperature.', '—'],
-            ['Roboport', 'Logistic network contents or unsatisfied requests. Robot statistics (X, Y, Z, T, R).', '—'],
-            ['Cargo landing pad', 'Contents. {2.1} Empty slots (E).', '{SA} Set requests from signals.'],
+            ['{i:Wooden chest}{i:Iron chest}{i:Steel chest} Wooden, iron, steel chest', 'Contents. {2.1} Empty slots (E).', '—'],
+            ['{i:Requester chest}{i:Passive provider chest} Logistic chests', 'Contents. {2.1} Empty slots (E).', 'Enable/disable on a condition. Requester and buffer: set requests from signals.'],
+            ['{i:Storage tank} Storage tank', 'Contents. {2.1} Contents of the whole pipeline, fluid temperature.', '—'],
+            ['{i:Pipe}{i:Pipe to ground} Pipe, pipe to ground {2.1}', 'Contents, pipeline contents, fluid temperature.', '—'],
+            ['{i:Roboport} Roboport', 'Logistic network contents or unsatisfied requests. Robot statistics (X, Y, Z, T, R).', '—'],
+            ['{i:Cargo landing pad} Cargo landing pad', 'Contents. {2.1} Empty slots (E).', '{SA} Set requests from signals.'],
           ],
         },
         cheat: [
@@ -763,6 +821,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'dev-transport',
+        icons: ["Transport belt", "Inserter", "Splitter", "Pump", "Offshore pump"],
         title: 'Connectable devices: belts, inserters & pumps',
         category: 'Devices',
         type: 'Reference',
@@ -771,11 +830,11 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Device', 'Can output', 'Can be controlled'],
           rows: [
-            ['Transport belt', 'Items on it. <b>Pulse</b>: 1 tick as an item enters. <b>Hold</b>: while items are on this tile. <b>Hold (all belts)</b>: the whole belt line, through undergrounds but not past splitters or side-loading.', 'Enable/disable (a disabled belt stops). Logistic condition.'],
-            ['Inserter (all kinds)', 'Hand contents. <b>Pulse</b>: 1 tick on pick-up. <b>Hold</b>: while holding.', 'Enable/disable. Set filters from signals. Set stack size from a signal (S). Logistic condition.'],
-            ['Splitter', '—', 'Set input and output priority side on a condition. Set the filter item from a signal.'],
-            ['Pump', '—', 'Enable/disable. Set fluid filter from a signal. Logistic condition.'],
-            ['Offshore pump', '—', 'Enable/disable. Logistic condition.'],
+            ['{i:Transport belt} Transport belt', 'Items on it. <b>Pulse</b>: 1 tick as an item enters. <b>Hold</b>: while items are on this tile. <b>Hold (all belts)</b>: the whole belt line, through undergrounds but not past splitters or side-loading.', 'Enable/disable (a disabled belt stops). Logistic condition.'],
+            ['{i:Inserter} Inserter (all kinds)', 'Hand contents. <b>Pulse</b>: 1 tick on pick-up. <b>Hold</b>: while holding.', 'Enable/disable. Set filters from signals. Set stack size from a signal (S). Logistic condition.'],
+            ['{i:Splitter} Splitter', '—', 'Set input and output priority side on a condition. Set the filter item from a signal.'],
+            ['{i:Pump} Pump', '—', 'Enable/disable. Set fluid filter from a signal. Logistic condition.'],
+            ['{i:Offshore pump} Offshore pump', '—', 'Enable/disable. Logistic condition.'],
           ],
         },
         cheat: [
@@ -789,6 +848,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'dev-production',
+        icons: ["Assembling machine 2", "Electric furnace", "Electric mining drill", "Pumpjack", "Lab"],
         title: 'Connectable devices: machines',
         category: 'Devices',
         type: 'Reference',
@@ -797,12 +857,12 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Device', 'Can output', 'Can be controlled'],
           rows: [
-            ['Assembling machines, oil refinery, chemical plant, centrifuge. {SA} Foundry, electromagnetic plant, biochamber, cryogenic plant, crusher.', 'Contents (optionally with the items in the current craft and the fuel). Ingredients of the set recipe. A 1-tick signal when a craft finishes (value = crafts finished, productivity included). A signal while working.', 'Enable/disable. <b>Set recipe</b> from a signal. Logistic condition.'],
-            ['Furnaces, recycler {SA}', 'Same as above, with the ingredients of the detected recipe.', 'Enable/disable. Logistic condition.'],
-            ['Mining drills', 'Expected resources, of this drill or of the whole ore patch.', 'Enable/disable. Logistic condition.'],
-            ['Pumpjack', 'Current oil mining rate.', 'Enable/disable. Logistic condition.'],
-            ['Lab, biolab {SA} {2.1}', 'Contents, cost of the current technology, technology level.', 'Set the current research on a condition. Players then cannot switch research by hand.'],
-            ['Agricultural tower {SA}', 'Seeds and harvested plants in its inventory.', 'Enable planting and/or harvesting on a condition {2.1}. Logistic condition.'],
+            ['{i:Assembling machine 2}{i:Oil refinery}{i:Chemical plant} Assembling machines, oil refinery, chemical plant, centrifuge. {SA} Foundry, electromagnetic plant, biochamber, cryogenic plant, crusher.', 'Contents (optionally with the items in the current craft and the fuel). Ingredients of the set recipe. A 1-tick signal when a craft finishes (value = crafts finished, productivity included). A signal while working.', 'Enable/disable. <b>Set recipe</b> from a signal. Logistic condition.'],
+            ['{i:Electric furnace} Furnaces, recycler {SA}', 'Same as above, with the ingredients of the detected recipe.', 'Enable/disable. Logistic condition.'],
+            ['{i:Electric mining drill} Mining drills', 'Expected resources, of this drill or of the whole ore patch.', 'Enable/disable. Logistic condition.'],
+            ['{i:Pumpjack} Pumpjack', 'Current oil mining rate.', 'Enable/disable. Logistic condition.'],
+            ['{i:Lab} Lab, biolab {SA} {2.1}', 'Contents, cost of the current technology, technology level.', 'Set the current research on a condition. Players then cannot switch research by hand.'],
+            ['{i:Agricultural tower} Agricultural tower {SA}', 'Seeds and harvested plants in its inventory.', 'Enable planting and/or harvesting on a condition {2.1}. Logistic condition.'],
           ],
         },
         cheat: [
@@ -815,6 +875,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'dev-power',
+        icons: ["Accumulator", "Power switch", "Nuclear reactor", "Boiler", "Heat pipe"],
         title: 'Connectable devices: power & heat',
         category: 'Devices',
         type: 'Reference',
@@ -823,12 +884,12 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Device', 'Can output', 'Can be controlled'],
           rows: [
-            ['Accumulator', 'Charge level as a percentage (A), 0–100.', '—'],
-            ['Power switch', '—', 'Connect two electric networks on a condition. Logistic condition.'],
-            ['Nuclear reactor, heating tower {SA}', 'Fuel, including the cell being burned. Temperature (T).', '—'],
-            ['Boiler {2.1}', 'Fuel, including the fuel being burned.', 'Enable/disable.'],
-            ['Heat exchanger {2.1}', '—', 'Enable/disable.'],
-            ['Heat pipe {2.1}', 'Temperature (T).', '—'],
+            ['{i:Accumulator} Accumulator', 'Charge level as a percentage (A), 0–100.', '—'],
+            ['{i:Power switch} Power switch', '—', 'Connect two electric networks on a condition. Logistic condition.'],
+            ['{i:Nuclear reactor} Nuclear reactor, heating tower {SA}', 'Fuel, including the cell being burned. Temperature (T).', '—'],
+            ['{i:Boiler} Boiler {2.1}', 'Fuel, including the fuel being burned.', 'Enable/disable.'],
+            ['{i:Heat exchanger} Heat exchanger {2.1}', '—', 'Enable/disable.'],
+            ['{i:Heat pipe} Heat pipe {2.1}', 'Temperature (T).', '—'],
           ],
         },
         cheat: [
@@ -840,6 +901,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'dev-trains',
+        icons: ["Train stop", "Rail signal", "Rail chain signal"],
         title: 'Connectable devices: trains',
         category: 'Devices',
         type: 'Reference',
@@ -848,9 +910,9 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Device', 'Can output', 'Can be controlled'],
           rows: [
-            ['Train stop', 'Contents of the stopped train (no fuel; fluids rounded down, but less than 1 reads as 1). Train ID (T). Trains on their way, including the stopped one (C).', 'Send signals to the train for its wait conditions. Enable/disable. Set train limit (L). Set priority (P). Logistic condition.'],
-            ['Rail signal', 'Its state as a red, yellow or green signal.', 'Close (turn red) on a condition.'],
-            ['Rail chain signal', 'Its state as red, yellow, green or blue.', '—'],
+            ['{i:Train stop} Train stop', 'Contents of the stopped train (no fuel; fluids rounded down, but less than 1 reads as 1). Train ID (T). Trains on their way, including the stopped one (C).', 'Send signals to the train for its wait conditions. Enable/disable. Set train limit (L). Set priority (P). Logistic condition.'],
+            ['{i:Rail signal} Rail signal', 'Its state as a red, yellow or green signal.', 'Close (turn red) on a condition.'],
+            ['{i:Rail chain signal} Rail chain signal', 'Its state as red, yellow, green or blue.', '—'],
           ],
         },
         cheat: [
@@ -864,6 +926,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'dev-defense-space',
+        icons: ["Gun turret", "Artillery turret", "Gate", "Land mine", "Rocket silo"],
         title: 'Connectable devices: defence & space',
         category: 'Devices',
         type: 'Reference',
@@ -872,13 +935,13 @@ const COMBINATORS_GUIDE = (() => {
         table: {
           head: ['Device', 'Can output', 'Can be controlled'],
           rows: [
-            ['Gun, laser and flamethrower turret. {SA} Rocket, tesla and railgun turret.', 'Ammunition inside. Laser and tesla turrets output nothing.', 'Enable/disable. Set or ignore target priorities on a condition. Logistic condition.'],
-            ['Artillery turret', 'Ammunition inside.', 'Enable/disable. Logistic condition.'],
-            ['Gate (wire the wall next to it)', 'G when a player or vehicle makes it open.', 'Open on a condition.'],
-            ['Land mine {2.1}', '—', 'Detonate on a condition. This switches off its proximity trigger.'],
-            ['Rocket silo', 'Contents. {SA} Orbital requests. {2.1} Launch pulse (R).', '—'],
-            ['Space platform hub {SA}', 'Contents, origin and destination, speed (V), damage taken (D). {2.1} Empty slots.', 'Send signals to the platform for wait conditions. {2.1} Set requests from signals.'],
-            ['Asteroid collector {SA}', 'Contents.', 'Enable/disable. Set filters from signals.'],
+            ['{i:Gun turret}{i:Laser turret}{i:Flamethrower turret} Gun, laser and flamethrower turret. {SA} Rocket, tesla and railgun turret.', 'Ammunition inside. Laser and tesla turrets output nothing.', 'Enable/disable. Set or ignore target priorities on a condition. Logistic condition.'],
+            ['{i:Artillery turret} Artillery turret', 'Ammunition inside.', 'Enable/disable. Logistic condition.'],
+            ['{i:Gate} Gate (wire the wall next to it)', 'G when a player or vehicle makes it open.', 'Open on a condition.'],
+            ['{i:Land mine} Land mine {2.1}', '—', 'Detonate on a condition. This switches off its proximity trigger.'],
+            ['{i:Rocket silo} Rocket silo', 'Contents. {SA} Orbital requests. {2.1} Launch pulse (R).', '—'],
+            ['{i:Space platform hub} Space platform hub {SA}', 'Contents, origin and destination, speed (V), damage taken (D). {2.1} Empty slots.', 'Send signals to the platform for wait conditions. {2.1} Set requests from signals.'],
+            ['{i:Asteroid collector} Asteroid collector {SA}', 'Contents.', 'Enable/disable. Set filters from signals.'],
           ],
         },
         cheat: [
@@ -892,6 +955,7 @@ const COMBINATORS_GUIDE = (() => {
       /* ================= Building blocks ================= */
       {
         id: 'isolator',
+        flow: ["Red wire|Network A", "Arithmetic combinator|Each + 0", "Green wire|Network B"],
         title: 'Isolator: a one-way wire',
         category: 'Building blocks',
         type: 'How-to',
@@ -916,6 +980,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'filter',
+        flow: ["Constant combinator|Wanted list", "Decider combinator|Each > 0", "Signal each|Only those"],
         title: 'Whitelist filter',
         category: 'Building blocks',
         type: 'How-to',
@@ -939,6 +1004,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'memory',
+        img: [
+          { f: "MemoryCell.png", w: 812, h: 611, cap: "The cookbook version: an inserter in pulse mode wired to both ends of an arithmetic combinator set to Each + 0." },
+        ],
         title: 'Memory cell & counter',
         category: 'Building blocks',
         type: 'How-to',
@@ -967,6 +1035,10 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'clock',
+        img: [
+          { f: "Timer.png", w: 2001, h: 716, cap: "A constant combinator feeding a decider that is wired to itself." },
+          { f: "Single combinator clock.png", w: 1105, h: 730, cap: "Single-combinator version: one condition and two outputs on the same signal." },
+        ],
         title: 'Clock / timer',
         category: 'Building blocks',
         type: 'How-to',
@@ -999,6 +1071,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'pulse-generator',
+        img: [
+          { f: "PulseGen.png", w: 673, h: 237, cap: "A clock followed by a decider that fires on one value." },
+        ],
         title: 'Pulse generator',
         category: 'Building blocks',
         type: 'How-to',
@@ -1020,6 +1095,7 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'edge-detector',
+        flow: ["Signal-S|Signal", "Arithmetic combinator|Each × −1", "Signal-S|One-tick pulse"],
         title: 'Edge detector',
         category: 'Building blocks',
         type: 'How-to',
@@ -1043,6 +1119,11 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'sr-latch',
+        img: [
+          { f: "SR-01-Layout.png", w: 850, h: 450, cap: "In the game: accumulator → latch → power switch." },
+          { f: "SR-04-SRLatch.png", w: 852, h: 225, cap: "The latch in the decider window: A < 20 OR A < 90 AND S > 0, output S = 1." },
+          { f: "SR-Multi-condition.png", w: 714, h: 303, cap: "A bigger latch with two set conditions and two reset conditions." },
+        ],
         title: 'SR latch (hysteresis)',
         category: 'Building blocks',
         type: 'How-to',
@@ -1072,6 +1153,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'digits',
+        img: [
+          { f: "5digitDisplay.png", w: 777, h: 231, tw: 480, cap: "A five-digit display built from lamps." },
+        ],
         title: 'Split a number into digits',
         category: 'Building blocks',
         type: 'How-to',
@@ -1092,6 +1176,10 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'signal-switch',
+        img: [
+          { f: "Factorio signal switch edit.png", w: 1595, h: 806, cap: "Decider conditions of a simple signal switch." },
+          { f: "Factorio latching signal switch edit.png", w: 1645, h: 1191, tw: 480, cap: "The latching version." },
+        ],
         title: 'Signal switch: one output per condition',
         category: 'Building blocks',
         type: 'How-to',
@@ -1117,6 +1205,9 @@ const COMBINATORS_GUIDE = (() => {
       /* ================= Recipes ================= */
       {
         id: 'recipe-limit-chest',
+        img: [
+          { f: "LimitItemsPlacedIntoAChest.png", w: 660, h: 648, cap: "An inserter wired to the chest it fills, enabled while the chest holds fewer than 10." },
+        ],
         title: 'Limit how much goes into a chest',
         category: 'Recipes',
         type: 'How-to',
@@ -1139,6 +1230,11 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-oil-cracking',
+        img: [
+          { f: "LgtOilCracking.png", w: 714, h: 484, tw: 480, cap: "Light oil cracking: the pump runs while light oil is above 20k." },
+          { f: "HvyOilCracking.png", w: 747, h: 496, tw: 480, cap: "Heavy oil cracking works the same way." },
+          { f: "Oil-single-cct.png", w: 786, h: 582, tw: 480, cap: "The relative version: all tanks and pumps on one network." },
+        ],
         title: 'Oil cracking control',
         category: 'Recipes',
         type: 'How-to',
@@ -1163,6 +1259,12 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-backup-steam',
+        img: [
+          { f: "SteamBackup.png", w: 707, h: 539, tw: 480, cap: "Simple version: the power switch closes when accumulators drop below 10%." },
+          { f: "SR-01-Layout.png", w: 850, h: 450, cap: "Latched version: accumulator → latch → power switch." },
+          { f: "SR-02-Accumulator.png", w: 416, h: 244, cap: "Accumulator: read charge level on signal A." },
+          { f: "SR-05-PowerSwitch.png", w: 455, h: 244, cap: "Power switch: enabled while S > 0." },
+        ],
         title: 'Backup steam power',
         category: 'Recipes',
         type: 'How-to',
@@ -1188,6 +1290,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-balanced-loading',
+        img: [
+          { f: "BalancedChestInsert.png", w: 907, h: 475, tw: 480, cap: "Six chests kept level. This screenshot compares against the inserter stack size (3) instead of 0." },
+        ],
         title: 'Balanced chest loading',
         category: 'Recipes',
         type: 'How-to',
@@ -1214,6 +1319,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-outpost-stock',
+        img: [
+          { f: "SmartOutpostUnloader.png", w: 919, h: 288, tw: 480, cap: "A supply train being unloaded through a filter inserter." },
+        ],
         title: 'Keep an outpost stocked',
         category: 'Recipes',
         type: 'How-to',
@@ -1238,6 +1346,11 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-sushi',
+        img: [
+          { f: "SushiScience1.png", w: 656, h: 600, tw: 480, cap: "Science packs sharing one belt loop, read by a wired belt tile." },
+          { f: "Transport belt circuit gui.png", w: 185, h: 280, cap: "Belt read modes: Pulse, Hold and Hold (all belts)." },
+          { f: "SushiScience2.png", w: 610, h: 610, tw: 480, cap: "The memory-cell variant." },
+        ],
         title: 'Sushi belt',
         category: 'Recipes',
         type: 'How-to',
@@ -1261,6 +1374,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-set-recipe',
+        img: [
+          { f: "MultipleItemAssembler.png", w: 1682, h: 1736, tw: 480, cap: "Constant combinator, decider and an assembler with \"Set recipe\" ticked." },
+        ],
         title: 'One assembler, many recipes',
         category: 'Recipes',
         type: 'How-to',
@@ -1288,6 +1404,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-train-limit',
+        img: [
+          { f: "Circuit network cookbook lamp as counter.png", w: 1256, h: 1386, tw: 480, cap: "A train stop that takes its limit from signal L. The lamps show the value." },
+        ],
         title: 'Train limit from station stock',
         category: 'Recipes',
         type: 'How-to',
@@ -1313,6 +1432,10 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-rail-crossing',
+        img: [
+          { f: "Gate entity anim.gif", w: 300, h: 300, fit: "cover", tw: 299, cap: "A gate across rails, wired through the wall beside it." },
+          { f: "Rail signal circuit network gui.png", w: 391, h: 440, fit: "cover", cap: "Rail signal options: \"Close signal\" and \"Read signal\"." },
+        ],
         title: 'Safe rail crossing',
         category: 'Recipes',
         type: 'How-to',
@@ -1337,6 +1460,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-nuclear',
+        img: [
+          { f: "NuclearCircuits.png", w: 1131, h: 710, tw: 480, cap: "The cookbook's steam-based design: one inserter removes spent cells, the other adds one new cell." },
+        ],
         title: 'Save nuclear fuel',
         category: 'Recipes',
         type: 'How-to',
@@ -1362,6 +1488,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-color-ramp',
+        img: [
+          { f: "ColoredLights.png", w: 585, h: 368, cap: "An arithmetic combinator turning a tank level into a colour signal for lamps." },
+        ],
         title: 'Lamp that fades red → yellow → green',
         category: 'Recipes',
         type: 'How-to',
@@ -1386,6 +1515,10 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'recipe-alarm',
+        img: [
+          { f: "Programmable speaker entity.png", w: 300, h: 300, fit: "cover", cap: "Programmable speaker" },
+          { f: "Programmable speaker gui.png", w: 448, h: 780, cap: "Condition, \"Show alert\" and polyphony settings." },
+        ],
         title: 'Alarm: low robots, low ammo, low anything',
         category: 'Recipes',
         type: 'How-to',
@@ -1410,6 +1543,7 @@ const COMBINATORS_GUIDE = (() => {
       /* ================= Troubleshooting ================= */
       {
         id: 'fix-gotchas',
+        icons: ["Decider combinator", "Signal everything", "Signal anything", "Signal each"],
         title: 'Common mistakes',
         category: 'Troubleshooting',
         type: 'Fix',
@@ -1439,6 +1573,9 @@ const COMBINATORS_GUIDE = (() => {
       },
       {
         id: 'fix-debug',
+        img: [
+          { f: "MulitipleChestsAndPoles.png", w: 430, h: 414, cap: "Hover a pole to see what its networks carry." },
+        ],
         title: 'See what a wire is carrying',
         category: 'Troubleshooting',
         type: 'Fix',
