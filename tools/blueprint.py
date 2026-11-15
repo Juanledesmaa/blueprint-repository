@@ -14,18 +14,28 @@ import zlib
 VERSION = 562949958467584  # 2.0.77.0, the same game version as the blueprints in data.js
 N, E, S, W = 0, 4, 8, 12
 POLE_COPPER = 5  # wire connector id for the copper (power) wire on an electric pole
+# Circuit wire connector ids. Chests, inserters, poles and lamps have one red and one
+# green connector; combinators have separate input and output sides.
+RED, GREEN = 1, 2
+IN_RED, IN_GREEN, OUT_RED, OUT_GREEN = 1, 2, 3, 4
 
 # Footprint in tiles (wide, high). Checked against the Factorio Blueprint Editor's
 # game data (selection_box) on 2026-11-15. Add an entity here before using it.
+# Sizes are for an entity facing north; add() swaps them for east and west.
 SIZE = {
     'electric-mining-drill': (3, 3),
     'transport-belt': (1, 1),
     'medium-electric-pole': (1, 1),
+    'steel-chest': (1, 1),
+    'bulk-inserter': (1, 1),
+    'arithmetic-combinator': (1, 2),
 }
+# Longest circuit wire each entity accepts, in tiles (circuit_wire_max_distance).
+CIRCUIT_REACH = {'steel-chest': 9, 'bulk-inserter': 9, 'arithmetic-combinator': 9, 'medium-electric-pole': 9}
 # Power poles: supply reach from the pole's centre, and longest wire, in tiles.
 SUPPLY_REACH = {'medium-electric-pole': 3.5}
 WIRE_REACH = {'medium-electric-pole': 9}
-NEEDS_POWER = {'electric-mining-drill'}
+NEEDS_POWER = {'electric-mining-drill', 'arithmetic-combinator', 'bulk-inserter'}
 # Where a north-facing drill drops its item, relative to its centre.
 DROP_OFFSET = {'electric-mining-drill': (0, -1.85)}
 
@@ -37,6 +47,11 @@ def encode(obj):
 
 def decode(string):
     return json.loads(zlib.decompress(base64.b64decode(string[1:])))
+
+
+def footprint(name, direction=N):
+    w, h = SIZE[name]
+    return (h, w) if direction in (E, W) else (w, h)
 
 
 def rotate(dx, dy, direction):
@@ -57,7 +72,7 @@ class Blueprint:
 
     def add(self, name, x, y, direction=None, **extra):
         """Place an entity whose top-left tile is (x, y). Returns its entity number."""
-        w, h = SIZE[name]
+        w, h = footprint(name, direction or N)
         entity = {'entity_number': len(self.entities) + 1, 'name': name,
                   'position': {'x': x + w / 2, 'y': y + h / 2}}
         if direction:
@@ -66,8 +81,30 @@ class Blueprint:
         self.entities.append(entity)
         return entity['entity_number']
 
-    def wire(self, a, b, connector=POLE_COPPER):
-        self.wires.append([a, connector, b, connector])
+    def wire(self, a, b, connector=POLE_COPPER, connector_b=None):
+        """Connect entity a to entity b. Give two connector ids when the ends differ,
+        for example a chest's RED to a combinator's IN_RED."""
+        self.wires.append([a, connector, b, connector if connector_b is None else connector_b])
+
+    def networks(self):
+        """Circuit networks as sets of (entity number, connector id), one set per network."""
+        parent = {}
+
+        def find(n):
+            parent.setdefault(n, n)
+            while parent[n] != n:
+                parent[n] = parent[parent[n]]
+                n = parent[n]
+            return n
+
+        for a, ca, b, cb in self.wires:
+            if ca == POLE_COPPER and cb == POLE_COPPER:
+                continue
+            parent[find((a, ca))] = find((b, cb))
+        groups = {}
+        for n in list(parent):
+            groups.setdefault(find(n), set()).add(n)
+        return list(groups.values())
 
     def snap_to_grid(self, width, height):
         """Make the blueprint tile on a width x height grid when dragged."""
@@ -89,14 +126,17 @@ class Blueprint:
 
     # ---- checks -------------------------------------------------------------
     def _tiles(self, entity):
-        w, h = SIZE[entity['name']]
+        w, h = footprint(entity['name'], entity.get('direction', N))
         x0 = round(entity['position']['x'] - w / 2)
         y0 = round(entity['position']['y'] - h / 2)
         return {(x0 + i, y0 + j) for i in range(w) for j in range(h)}
 
-    def check(self):
+    def check(self, already_powered=()):
         """Return a list of problems: overlaps, unpowered machines, wires too long,
-        poles cut off from the rest, drills that drop onto nothing."""
+        poles cut off from the rest, drills that drop onto nothing.
+
+        already_powered: entity names to skip in the power check, for a blueprint that is
+        placed over an existing build whose own poles are not part of it."""
         problems = []
         taken = {}
         for e in self.entities:
@@ -107,8 +147,8 @@ class Blueprint:
         by_number = {e['entity_number']: e for e in self.entities}
         poles = [e for e in self.entities if e['name'] in SUPPLY_REACH]
         for e in self.entities:
-            if e['name'] in NEEDS_POWER:
-                w, h = SIZE[e['name']]
+            if e['name'] in NEEDS_POWER and e['name'] not in already_powered:
+                w, h = footprint(e['name'], e.get('direction', N))
                 cx, cy = e['position']['x'], e['position']['y']
                 powered = any(abs(p['position']['x'] - cx) < SUPPLY_REACH[p['name']] + w / 2 and
                               abs(p['position']['y'] - cy) < SUPPLY_REACH[p['name']] + h / 2 for p in poles)
@@ -120,17 +160,20 @@ class Blueprint:
                 target = by_number.get(taken.get(tile))
                 if not target or 'belt' not in target['name']:
                     problems.append('%s #%d drops at %s, which is not a belt' % (e['name'], e['entity_number'], tile))
-        for a, _, b, _ in self.wires:
+        copper = [w for w in self.wires if w[1] == POLE_COPPER and w[3] == POLE_COPPER]
+        for a, ca, b, cb in self.wires:
             pa, pb = by_number[a], by_number[b]
             dist = ((pa['position']['x'] - pb['position']['x']) ** 2 + (pa['position']['y'] - pb['position']['y']) ** 2) ** 0.5
-            if dist > min(WIRE_REACH[pa['name']], WIRE_REACH[pb['name']]):
+            reach = WIRE_REACH if [a, ca, b, cb] in copper else CIRCUIT_REACH
+            if dist > min(reach[pa['name']], reach[pb['name']]):
                 problems.append('wire #%d-#%d is %.1f tiles, too long' % (a, b, dist))
-        if poles:
-            linked = {poles[0]['entity_number']}
+        if poles and copper:
+            # Poles with no copper wire in the blueprint connect on their own when built.
+            linked = {copper[0][0]}
             grew = True
             while grew:
                 grew = False
-                for a, _, b, _ in self.wires:
+                for a, _, b, _ in copper:
                     if (a in linked) != (b in linked):
                         linked |= {a, b}
                         grew = True

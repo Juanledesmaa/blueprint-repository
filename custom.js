@@ -4,6 +4,23 @@
    Factorio Blueprint Editor (fbe.factorygamefan.com). Newest first. */
 const CUSTOM_BLUEPRINTS = [
   {
+    "title": "Unloading balancer: 2 wagons, wiring only",
+    "category": "Trains",
+    "image": "custom/unload-balancer.webp",
+    "stats": [
+      "2 combinators",
+      "84 chests wired",
+      "Nothing moved"
+    ],
+    "desc": "<p>For a two-wagon unloading station where one wagon's chests drain faster than the other's. Each side's belt inserters run only while that side holds at least as much as the other, so the fuller side is emptied first and both wagons keep unloading.</p><p>Lay it over the station so every chest lines up, then click. Your chests and the 12 inserters that load the belts get wires and a condition. Only two arithmetic combinators and two poles are new, on the tile rows just above and below the belt end.</p><p>It expects steel chests 7 deep, 6 rows per wagon, one empty row between the wagons, bulk inserters loading belts on the left and the track on the right. Flip the blueprint if your station is mirrored.</p><p>How it works: all chests of a wagon are on one red wire into a combinator that adds them up (<code>Each × 1</code>), giving <code>T</code> for the top wagon and <code>B</code> for the bottom. Top inserters are enabled while <code>T ≥ B</code>, bottom inserters while <code>B ≥ T</code>.</p><p>Laying a blueprint over existing chests and inserters copies its settings onto them, so slot limits or filters on those may be cleared.</p><p>Built by <code>tools/unload_balancer.py</code> from a screenshot and checked in the Factorio Blueprint Editor. Not tested in the game.</p>",
+    "blueprints": [
+      {
+        "label": "Balancer overlay",
+        "string": "0eNrlms1u6zYQhV9F0KY/GAcmRUqkgdtFnqALd5VeBLLNxkJlyZDkpEGQdy9Ho9jBvZ5cTzYF6tVhJPHTcOKj+IR6SVf1Iey7qhnSxUtardumTxd3L2lfPTRljceachfSRVp21bDdhaFaz9btblU15dB26SukVbMJ/6QL9QpnZvVDCPVsvQ398O5a/foV0tAM1VAFut34w/N9c9itQhdh8AZYHeq/Z1XTh26IJyDdt32c1TZ4D7zrjYX0OV3Mb2zEb6ourOmsgTSuZeja+n4VtuVjFYuNU9ZVtz5Uw31oylUdNuli6A4BjofjlM0R/1fV9cP9aUnD8x4reqy64RCPHEukK2ZLXGAfEHH5pFucFPu5L7uxn4v0z4PWuU1fX7Gf37RFw7m+ftcU/a4pZyjZZRTzMcVcRsk/ptjLKO5jSn4ZRc0/xhQXYn7QX3ch5gcN9lIPqKvwgJrLTKDOd1cpmQs4jJbZgMNkMh9wGCM0AsexQidwnFxoBY5TSL2gr8MLTuYFzbTXy7zAYPRc5gUOo2Re4DBa6AWOkwm9wHGM0Ascx0q9kF3Hd6Nc5oWMaW8h8wKHcTIvcBgv8wKDyeZCL3AcJfQCx9FCL3CcTOoFcxVeyIzMC4Zpr5V5gcPkMi9wmELmBQ7jhF7gOF7oBYZj5kIvcBxxZrZX4QUjDM2Waa8wNXMYYWzmMMLczGGkwZnjSJMzx5FGZ44jzs7Ff++F2894YSnyghVm54L5p40wO3MYYXbmMMLszGGk2ZnjSLMzx5FmZ44jzs7uOrwgzM6Oaa8wOzOYXJidOYwwO3MYaXbmONLszHGk2ZnjiLOzvwov5MLs7Jn2CrMzhxFmZw4jzM4MppBmZ44jzc4cR5qdOY44O6v5VZihEIZnxe0mCdMzyxHGZ5YjzM8sRxqgWZA0QXMgJ43QLEicoZW6Ck84YYhWzEaOE6ZoliOM0SxHmKNZjjRIsyBpkmZB0ijNguT70PoqPOGlG9HMho6X7kRzHOlWNMeR7kVzHPFmNAcS70ZzIPF2NAc6ufT8a1FnPgTzkTi79DvUiXvyQf8JI4RyvX3nBXy/ayjxZa/4qWv3IX7QxyrSX+PM9jDsD7L/3p53hvtse1T2P2rPLdee0xN1FzbVYTcLdVxuF3u0b+vwfXey6eM4Y762qPn8k8Sx3/gyXjWEHT7hjy8DQlqXqxCXmf7R1G25qZqHZFXWZbMO3SLRyVP5EHsFyVPV4am2qZ/jnMfQ9eNdbK698d46kxcW/1rH68ZX/e40KFBzUF/hDgWUo3EU0Pk4RoHMjGMUMJrGeLmiyxWOPY09Ti1oaoFTLV1ucWo2jpGiiIICmipAAU0VoEBGFaCAoQqQooiCApoqQAFNFaBARhWggKEKkKKIggKaKkCBjCpAgYwqQAFDFSBFEQUFNFWAAhlVgAIZVYAChipAiiIKCmiqAAWyqZNYgaEKUMBMPcBLjr02x9bZYyfy48KKY52nuZ4OWkRaOowC+TRtnEdYFHBUjhvnUjkWV2VpVSiQExMFCioEBRwVigKeOmKRkxMHBXKqAQWKqbFYg6MaUMBTDRY5OXFQIKcaUKCYFjuulmpAAU81WOTkxEGBgmpAgYJqQAFHNaCAnz5eY1eJgwIF1YACBdWAAm767WINfvqFICcnDgoUVAMKOKoBBRzVgAKeasB2v/UN5a0PXp/W5bNTnd6c7uvtt5zJxKDBg8ajcaSKcYgC2o5jFMiycYwCRo1jFDA0FQUszUWBnOaiQEFzUcDRXBRw020LGH2GQxeH4+H4eNuEft1V++lh/ntdrkPSxodVMmxDEp/4eCLp2/HH8UtBn9RVE5LD/iZZtvvk7Utvn3SHJnnaVnVIlslvX5JbSFbtMLS7d5fQ6Vs8vUx+XkIcfknaLsRLEvx7Q8/On/rpTr/cxL8T/wI104oy"
+      }
+    ]
+  },
+  {
     "title": "Mining outpost: 28 drills on one yellow belt",
     "category": "Mining",
     "image": "custom/mining-outpost.webp",
