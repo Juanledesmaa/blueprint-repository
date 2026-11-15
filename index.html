@@ -440,6 +440,17 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   cursor: pointer;
 }
 .bp-view:hover { background: var(--ink); color: #fff; }
+.bp-edit { width: auto; padding: 0 0.7rem; font-size: 0.8rem; white-space: nowrap; }
+
+.card-stats { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.3rem; }
+.card-stats .pill { padding: 0.2rem 0.6rem; font-size: 0.78rem; }
+.card-desc code {
+  padding: 0.1em 0.35em;
+  border-radius: 6px;
+  background: var(--field);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.86em;
+}
 
 .bp-string {
   width: 100%;
@@ -974,7 +985,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   .preview-body { padding: 1rem; }
 
   .tabs { order: 3; width: 100%; }
-  .tab { flex: 1; padding: 0 0.5rem; }
+  .tab { flex: 1; padding: 0 0.3rem; font-size: 0.86rem; }
   .seg { grid-column: 1 / -1; }
   .seg button { flex: 1; }
 
@@ -1011,6 +1022,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
       <button class="tab" type="button" role="tab" data-tab="blueprints">Blueprints</button>
       <button class="tab" type="button" role="tab" data-tab="logistics">Logistics</button>
       <button class="tab" type="button" role="tab" data-tab="combinators">Combinators</button>
+      <button class="tab" type="button" role="tab" data-tab="custom">Custom</button>
     </nav>
     <a class="source-link" id="sourceLink" href="https://autosaved.org/factorio/blueprints" target="_blank" rel="noopener noreferrer">Source: autosaved.org ↗</a>
   </header>
@@ -1077,6 +1089,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
 </div>
 
 <script src="data.js"></script>
+<script src="custom.js"></script>
 <script src="guide-logistics.js"></script>
 <script src="guide-combinators.js"></script>
 <script>
@@ -1098,6 +1111,8 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
 
   const WIKI = 'https://wiki.factorio.com/';
   const AUTOSAVED = 'https://autosaved.org/factorio/blueprints';
+  /* Hosted Factorio Blueprint Editor. A link of the form EDITOR#source=<blueprint string> opens that blueprint. */
+  const EDITOR = 'https://fbe.factorygamefan.com/';
   const ext = (href, label) =>
     '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
 
@@ -1146,6 +1161,13 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     'Fulgora': '#8A4FD0',
     'Gleba': '#3F9B57',
     'Aquilo': '#2F7FD1',
+    /* Custom tab */
+    'Mining': '#E07B2A',
+    'Smelting': '#D2373C',
+    'Production': '#3F9B57',
+    'Trains': '#2F7FD1',
+    'Circuits': '#2161A8',
+    'Logistics': '#8A4FD0',
   };
 
   const guideFooter =
@@ -1154,8 +1176,9 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
 
   const TABS = {
     blueprints: {
+      data: BLUEPRINT_DATA,
       title: 'Factorio Blueprints',
-      text: 'A personal lookup library of blueprints — search by name or description, filter by category, and copy any blueprint string straight into the game.',
+      text: 'A personal lookup library of blueprints — search by name or description, filter by category, and copy any blueprint string straight into the game or open it in the blueprint editor.',
       noun: 'blueprints',
       placeholder: 'Search blueprints… ( / )',
       sortLabel: 'Original order',
@@ -1185,12 +1208,23 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
       footer: guideFooter,
       empty: 'No topics match. Try a different search, section or type.',
     },
+    custom: {
+      data: typeof CUSTOM_BLUEPRINTS !== 'undefined' ? CUSTOM_BLUEPRINTS : null,
+      title: 'Custom Blueprints',
+      text: 'Blueprints generated on request. Each one is built by a script, checked in the Factorio Blueprint Editor, and ready to copy into the game or open in the editor.',
+      noun: 'blueprints',
+      placeholder: 'Search custom blueprints… ( / )',
+      sortLabel: 'Newest first',
+      source: ['Editor: fbe.factorygamefan.com ↗', EDITOR],
+      footer: 'Generated blueprints, checked in the ' + ext(EDITOR, 'Factorio Blueprint Editor') + '. Not tested in the game.',
+      empty: 'No custom blueprints match. Try a different search or category.',
+    },
   };
 
   /* One model per tab: items, categories, colours, search text */
   function makeModel(key) {
     const cfg = TABS[key];
-    const raw = cfg.guide ? cfg.guide.entries : BLUEPRINT_DATA;
+    const raw = cfg.guide ? cfg.guide.entries : cfg.data;
     const items = raw.map((d, i) => ({ ...d, _i: i }));
     const cats = [];
     items.forEach(d => { if (!cats.includes(d.category)) cats.push(d.category); });
@@ -1241,7 +1275,7 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
   const models = {};
   const state = {};
   Object.keys(TABS).forEach(k => {
-    if (k !== 'blueprints' && !TABS[k].guide) return;
+    if (!TABS[k].guide && !TABS[k].data) return;
     models[k] = makeModel(k);
     state[k] = { cat: 'All', query: '', sort: 'original', type: 'all' };
   });
@@ -1376,20 +1410,22 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     el.style.setProperty('--stripe', m.color(d.category));
 
     // media
-    const media = document.createElement('div');
-    media.className = 'card-media';
-    const imgBtn = document.createElement('button');
-    imgBtn.type = 'button';
-    imgBtn.className = 'card-image-btn';
-    const img = document.createElement('img');
-    img.className = 'card-image';
-    img.loading = 'lazy';
-    img.src = d.image;
-    img.alt = d.title;
-    imgBtn.appendChild(img);
-    imgBtn.onclick = () => openPreview(d.image, d.title, '');
-    media.appendChild(imgBtn);
-    el.appendChild(media);
+    if (d.image) {
+      const media = document.createElement('div');
+      media.className = 'card-media';
+      const imgBtn = document.createElement('button');
+      imgBtn.type = 'button';
+      imgBtn.className = 'card-image-btn';
+      const img = document.createElement('img');
+      img.className = 'card-image';
+      img.loading = 'lazy';
+      img.src = d.image;
+      img.alt = d.title;
+      imgBtn.appendChild(img);
+      imgBtn.onclick = () => openPreview(d.image, d.title, '');
+      media.appendChild(imgBtn);
+      el.appendChild(media);
+    }
 
     // info
     const info = document.createElement('div');
@@ -1404,6 +1440,18 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
     meta.className = 'card-meta';
     meta.textContent = d.category;
     info.appendChild(meta);
+
+    if (d.stats) {
+      const stats = document.createElement('div');
+      stats.className = 'card-stats';
+      d.stats.forEach(t => {
+        const pill = document.createElement('span');
+        pill.className = 'pill';
+        pill.textContent = t;
+        stats.appendChild(pill);
+      });
+      info.appendChild(stats);
+    }
 
     if (d.desc && stripHtml(d.desc).trim()) {
       const desc = document.createElement('div');
@@ -1478,6 +1526,14 @@ main { display: flex; flex-direction: column; gap: 1.5rem; }
         row.insertAdjacentElement('afterend', ta);
       };
       row.appendChild(viewBtn);
+
+      const editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.className = 'bp-view bp-edit';
+      editBtn.textContent = 'Editor ↗';
+      editBtn.title = 'Open in the Factorio Blueprint Editor (new tab)';
+      editBtn.onclick = () => window.open(EDITOR + '#source=' + b.string, '_blank', 'noopener');
+      row.appendChild(editBtn);
 
       foot.appendChild(row);
     });
